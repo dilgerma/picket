@@ -40,6 +40,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!--SPRING-->
+        <dependency>
+            <groupId>de.effective</groupId>
+            <artifactId>spring-dependencies</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--  WICKET DEPENDENCIES -->
         <dependency>
             <groupId>org.wicketstuff</groupId>
@@ -51,6 +57,24 @@
             <artifactId>wicket-core</artifactId>
             <version>${wicket.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-spring</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+
+        <!-- GOOGLE APP ENGINE -->
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-jpa</artifactId>
+            <version>2.1.8</version>
+        </dependency>
+
 
         <!-- LOGGING DEPENDENCIES - LOG4J -->
         <dependency>
