@@ -29,16 +29,6 @@ public class EffectiveApplication extends WebApplication
 	{
 		super.init();
 
-        // disable ModificationWatcher
-        getResourceSettings().setResourcePollFrequency(null);
-
-        // use plain JDK Object(Input|Output)Stream
-        ISerializer serializer = new SimpleJavaSerializer(getApplicationKey());
-        getFrameworkSettings().setSerializer(serializer);
-
-        // disable file cleaning because it starts a new thread
-        getResourceSettings().setFileCleaner(null);
-
 	}
 
 }
