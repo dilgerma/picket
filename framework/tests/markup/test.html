@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns:picket="http://www.effectivetrainings.de">
+<head>
+    <title></title>
+</head>
+<body>
+   <input type="text" id="text-id" pid="text-id" />
+   <input type="text" id="text-id-2"/>
+   <div pid="wrong-tag"/>
+   <!-- additional attributes are accepted, attributes that are already defined not (type=blubb)-->
+   <input type="blubb" id="text-id-3" pid="text-id-with-params" class="test-class"/>
+
+   <!-- attributes are also applied to childs -->
+    <form pid="applied-form" class="applied-parameter-class-form">
+     <div>
+        <input type="text" pid="applied-text" class="applied-parameter-class-input"/>
+     </div>
+    </form>
+
+   <!-- wrong hierarchy  -->
+    <form pid="hierarchy-test-form"></form>
+    <input type="text" pid="hierarchy-test-input"/>
+
+
+</body>
+</html>
