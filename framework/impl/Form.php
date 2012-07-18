@@ -5,14 +5,16 @@ class Form extends FormComponentStub
 
     private $callbackURI;
 
-    public function Form($id, $model){
+    public function Form($id, $model)
+    {
         $this->FormComponentStub($id, $model);
         $this->callbackURI = new FormCallBackUri($this);
-        $this->addAttributes(array("method"=>"post","action"=>$this->callbackURI->getCallbackURI()));
+        $this->addAttributes(array("method" => "post", "action" => $this->callbackURI->getCallbackURI()));
         $this->formSubmitListener = new DefaultFormSubmitListener($this);
     }
 
-    public function innerConfigure(){
+    public function innerConfigure()
+    {
         $this->formSubmitListener->process();
     }
 
@@ -22,13 +24,19 @@ class Form extends FormComponentStub
      */
     public function getTagName()
     {
-       return "form";
+        return "form";
     }
 
     public function getType()
     {
         return null;
     }
+
+    public function onUpdateModel($value)
+    {
+        //the form itself does never update its model, only the children.
+    }
+
 
 }
 

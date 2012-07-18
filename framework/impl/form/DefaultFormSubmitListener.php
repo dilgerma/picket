@@ -12,7 +12,8 @@ class DefaultFormSubmitListener implements FormSubmitListener
     private $component;
     private $requestParameters;
 
-    public function DefaultFormSubmitListener(Form $component){
+    public function DefaultFormSubmitListener(Form $component)
+    {
         $this->component = $component;
         $this->requestParameters = Configuration::getConfigurationInstance()->requestParameterProvider()->newRequestParameters();
     }
@@ -20,8 +21,8 @@ class DefaultFormSubmitListener implements FormSubmitListener
     public function onSubmit()
     {
         $fields = $this->component->fields();
-        foreach($fields as $field){
-           $this->handleField($field);
+        foreach ($fields as $field) {
+            $this->handleField($field);
         }
         //and last the form itself
         $this->handleField($this->component);
@@ -34,18 +35,20 @@ class DefaultFormSubmitListener implements FormSubmitListener
 
     public function process()
     {
-        if($this->checkSubmit()){
+        if ($this->checkSubmit()) {
             $this->onSubmit();
         }
     }
 
 
+    private function handleField(FormComponentStub $field)
+    {
 
-    private function handleField(FormComponentStub $field){
         $value = $this->requestParameters->getSubmittedValueFor($field);
         $field->onValidate($value);
-        if($field->hasErrors() === false){
+        if ($field->hasErrors() === false) {
             $field->onUpdateModel($value);
+            $field->onSubmit();
         }
         $field->onDetach();
     }
