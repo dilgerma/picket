@@ -20,5 +20,7 @@ class TextFieldTest extends BaseTestCase
         $this->assertEquals("<input name='".$text->getId()."' type='text' required='required' ></input>",$rendered);
     }
 
+
+
 }
 

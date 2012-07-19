@@ -13,6 +13,7 @@ class Panel extends ComponentStub
     public function Panel($id, $model){
         $this->ComponentStub($id,$model);
         $this->setTagRenderer(new EmptyTagRenderer());
+        $this->markupParser = new MarkupParser($this->getMarkupFile());
     }
 
     /**
@@ -26,16 +27,19 @@ class Panel extends ComponentStub
 
     protected function renderMarkupTag()
     {
-        $this->markupParser = new MarkupParser($this->getMarkupFile());
         $this->markupParser->replaceNodes($this);
         $rendered = $this->markupParser->getDocument()->html();
         return $rendered;
     }
 
+    protected function getMarkupParser(){
+        return $this->markupParser;
+    }
+
 
     public function getMarkupFile(){
         $filename = $this->getPackage();
-        $markup = str_replace(".php",".html",$filename);
+        $markup = MarkupParser::getMarkupNameFromScript($filename);
         return $markup;
     }
 
@@ -45,14 +49,5 @@ class Panel extends ComponentStub
     }
 
 
-    /**
-     *
-     * @abstract
-     * @return the folder of this class, typically this will be implemented like
-     * dirname(__FILE__)
-     */
-    private function getPackage(){
-        $reflectOnThis = new ReflectionClass($this);
-        return $reflectOnThis->getFileName();
-    }
+
 }

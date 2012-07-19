@@ -11,7 +11,7 @@ class Autoloader
 
 
     private static $packages = array("impl", "impl/application", "impl/container", "impl/data",
-        "impl/data/property",
+        "impl/data/property","impl/component","impl/component/repeater",
         "impl/form","impl/markup", "impl/render", "impl/request","tests/request");
    //private static $testPackages = array("tests", "tests/form", "tests/render",
      //   "tests/request","tests/markup");

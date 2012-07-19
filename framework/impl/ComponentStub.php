@@ -7,20 +7,22 @@
  * Time: 12:35
  * To change this template use File | Settings | File Templates.
  */
-abstract class ComponentStub implements Component, Tag {
+abstract class ComponentStub implements Component, Tag
+{
 
     private $id;
     private $model;
-    private $fields =  array();
+    private $fields = array();
     private $visible = true;
     private $required = false;
     private $renderer;
     private $attributes = array();
     private $requestCycle;
-    private $parent;
+    private $behaviors = array();
 
 
-    public function ComponentStub($id,$model){
+    public function ComponentStub($id, $model)
+    {
         $this->id = $id;
         $this->model = $model;
         $this->renderer = new TagRenderer($this);
@@ -29,7 +31,8 @@ abstract class ComponentStub implements Component, Tag {
         $this->requestCycle->onInitialize();
     }
 
-    public function getRequestCycle(){
+    public function getRequestCycle()
+    {
         return $this->requestCycle;
     }
 
@@ -50,41 +53,69 @@ abstract class ComponentStub implements Component, Tag {
         array_push($this->fields, $component);
     }
 
-    public function fields(){
+    public function fields()
+    {
         return $this->fields;
     }
 
-    public function isVisible(){
+    public function isVisible()
+    {
         return $this->visible;
     }
 
-    public function isRequired(){
+    public function isRequired()
+    {
         return $this->required;
     }
 
-    public function getModel(){
+    public function getModel()
+    {
         return $this->model;
     }
 
-    public function getAttributes(){
-       return $this->attributes;
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
 
-    public function addAttributes($attributes){
-        $this->attributes = array_merge($this->attributes,$attributes);
+    public function addAttributes($attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
-    protected function setTagRenderer(TagRenderer $tagRenderer){
+    public function appendAttribute(array $attributes){
+        foreach($attributes as $key=>$value){
+
+            if(array_key_exists($key,$this->attributes)){
+
+                $value = $this->attributes[$key];
+                $value.=" ".$attributes[$key];
+                $this->attributes = array_replace($this->attributes,array($key=>$value));
+            } else {
+                $this->addAttributes($attributes);
+            }
+        }
+    }
+
+    protected function setTagRenderer(TagRenderer $tagRenderer)
+    {
         $this->renderer = $tagRenderer;
     }
 
-    public final function renderTag()
+    /**
+     * Renders the Markup for this component.
+     *
+     * @param null $bodyContentMarkup optional body markup that is rendered, if the component has itself
+     * no body markup.
+     * @return string
+     */
+    public final function renderTag($bodyContentMarkup = null)
     {
         $this->requestCycle->onBeforeRender();
         if ($this->isVisible()) {
             $this->requestCycle->onRender();
-            $content =$this->renderMarkupTag();
+            $content = $this->renderMarkupTag($bodyContentMarkup);
             $this->requestCycle->onAfterRender();
             return $content;
         }
@@ -95,19 +126,26 @@ abstract class ComponentStub implements Component, Tag {
      * way your component is rendered.
      * @return string
      */
-    protected function renderMarkupTag(){
+    protected function renderMarkupTag($bodyContentMarkup)
+    {
         $content = $this->getTagRenderer()->renderOpenTag();
-        $content .= $this->getTagBody();
-        $content.= $this->getTagRenderer()->renderCloseTag();
+        if (is_null($this->getTagBody())) {
+            $content .= $bodyContentMarkup;
+        } else {
+            $content .= $this->getTagBody();
+        }
+        $content .= $this->getTagRenderer()->renderCloseTag();
         return $content;
     }
 
 
-    public function getTagBody(){
+    public function getTagBody()
+    {
         return null;
     }
 
-    public function getTagRenderer(){
+    public function getTagRenderer()
+    {
         return $this->renderer;
     }
 
@@ -126,9 +164,10 @@ abstract class ComponentStub implements Component, Tag {
      *
      * @return mixed
      */
-    public final function render(){
+    public final function render()
+    {
         $this->configure();
-        foreach($this->fields() as $field){
+        foreach ($this->fields() as $field) {
             $field->configure();
         }
         return $this->renderTag();
@@ -141,28 +180,56 @@ abstract class ComponentStub implements Component, Tag {
      * are any request parameters for the form
      * itself of any of its children.
      */
-    public final function configure(){
+    public final function configure()
+    {
         $this->innerConfigure();
-        foreach($this->fields() as $field){
+        foreach ($this->fields() as $field) {
             $field->configure();
         }
     }
 
-    protected function innerConfigure(){}
+    protected function innerConfigure()
+    {
+    }
 
     /**
      * @return true if this component type can be rendered dynamically and thus
      * is not included in markup-validation.
      */
-    public function isDynamicallyRendered(){
+    public function isDynamicallyRendered()
+    {
         return false;
+    }
+
+
+    public function addBehavior(Behavior $behavior)
+    {
+        $behavior->onBind($this);
+        array_push($this->behaviors, $behavior);
+    }
+
+    public function getBehaviors()
+    {
+        return $this->behaviors;
+    }
+
+    /**
+     *
+     * @abstract
+     * @return the folder of this class, typically this will be implemented like
+     * dirname(__FILE__)
+     */
+    public function getPackage(){
+        $reflectOnThis = new ReflectionClass($this);
+        return $reflectOnThis->getFileName();
     }
 
     /*
      * this method handles everything that needs to be done
      * to initialize a page for usage with picket-components.
      * */
-    public static function pageInit(){
+    public static function pageInit()
+    {
         session_start();
 
     }
@@ -174,8 +241,9 @@ abstract class ComponentStub implements Component, Tag {
      * @param $additionalId
      * @return string
      */
-    public static function concatenateId($id,$additionalId){
-        return $id.":".$additionalId;
+    public static function concatenateId($id, $additionalId)
+    {
+        return $id . ":" . $additionalId;
     }
 
 

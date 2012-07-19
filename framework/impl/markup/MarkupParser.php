@@ -19,12 +19,12 @@ class MarkupParser
 
     /**
      * @param ComponentStub $component
-     * @return phpQueryObject|QueryTemplatesParse|QueryTemplatesSource|QueryTemplatesSourceQuery
+     * @return DOMElement
      * @throws Exception if no element with the given id was found.
      */
     public function getTagForComponent(ComponentStub $component, phpQueryObject $startNode = null)
     {
-        $pidSelector = "[" . MarkupConstants::ID_ATTR . "=" . $component->getId() . "]";
+        $pidSelector = $this->pidSelector($component);
         if (isset($startNode)) {
             $element = $startNode->find($pidSelector);
         } else {
@@ -37,7 +37,7 @@ class MarkupParser
             maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?");
         }
 
-        return $element;
+        return $element->get(0);
     }
 
     /**
@@ -101,22 +101,31 @@ class MarkupParser
         }
     }
 
+    public function findFirstChildComponentTagWithParentId(ComponentStub $component){
+       $node = $this->getTagForComponent($component);
+
+       return $node->children($this->pidSelector($component))->next();
+    }
+
     private function renderComponent(phpQueryObject $node, ComponentStub $component)
     {
+
         $contentHtml = $node->html();
         $this->applyParameters($node,$component);
-        $content = $component->getTagRenderer()->renderOpenTag();
-        if (is_null($component->getTagBody())) {
-            $content .= $contentHtml;
-        } else {
-            $content .= $component->getTagBody();
-        }
-        $content .= $component->getTagRenderer()->renderCloseTag();
-        return $content;
+        return $component->renderTag($contentHtml);
     }
 
     public function getDocument()
     {
         return phpQuery::getDocument();
+    }
+
+    private function pidSelector($component){
+        return "[" . MarkupConstants::ID_ATTR . "=" . $component->getId() . "]";
+    }
+
+    public static function getMarkupNameFromScript($scriptName){
+        $markup = str_replace(".php",".html",$scriptName);
+        return $markup;
     }
 }

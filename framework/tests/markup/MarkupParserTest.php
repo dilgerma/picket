@@ -129,4 +129,13 @@ class MarkupParserTest extends BaseTestCase
 
         echo $markupParser->getDocument()->htmlOuter();
     }
+
+    public function testFindFirstChildWithParentId(){
+        $markupParser = new MarkupParser($this->basePath . "/child-finder.html");
+        $form = new Form("list",new SimpleModel(""));
+
+        $child = $markupParser->findFirstChildComponentTagWithParentId($form);
+        $this->assertEquals("<div pid=\"list\" class=\"child\"></div>",$child->htmlOuter());
+
+    }
 }

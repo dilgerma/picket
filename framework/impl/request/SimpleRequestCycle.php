@@ -28,15 +28,28 @@ class SimpleRequestCycle implements RequestCycle
     public final function onRender()
     {
         call_user_func($this->renderCallback,$this->component);
+        $behaviors = $this->component->getBehaviors();
+        foreach($behaviors as $behavior){
+            $behavior->onRender();
+        }
     }
 
     public final function onBeforeRender()
     {
+
         call_user_func($this->beforeRenderCallback, $this->component);
+        $behaviors = $this->component->getBehaviors();
+        foreach($behaviors as $behavior){
+            $behavior->onBeforeRender();
+        }
     }
 
     public final function onAfterRender(){
         call_user_func($this->afterRenderCallback, $this->component);
+        $behaviors = $this->component->getBehaviors();
+        foreach($behaviors as $behavior){
+            $behavior->onAfterRender();
+        }
     }
 
     public final function onInitialize(){

@@ -15,11 +15,25 @@ require_once __DIR__.'/container/SimpleTestPanel.php';
 class ComponentStubTest extends BaseTestCase
 {
 
-    public function testPackageForComponents(){
-        $packageForTextField = new TextField("test",new SimpleModel(""));
+    public function testAppendAttribute(){
+        $stub = new TestComponent("test", new SimpleModel(""));
+        $stub->addAttributes(array("class"=>"test"));
+        $attributes = $stub->getAttributes();
+        $this->assertEquals("test",$attributes["class"]);
 
-        $packageForPanel = new SimpleTestPanel("panel", new SimpleModel(''));
+        $stub->appendAttribute(array("class"=>"test-2"));
+        $attributes = $stub->getAttributes();
+        $this->assertEquals("test test-2",$attributes["class"]);
+    }
+}
 
-       $this->assertNotSame($packageForTextField->getPackage(),$packageForPanel->getPackage());
+ class TestComponent extends ComponentStub{
+    /**
+     * Gets the Tagname
+     * @return mixed
+     */
+    public function getTagName()
+    {
+        "test";
     }
 }

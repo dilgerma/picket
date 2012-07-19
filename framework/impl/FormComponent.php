@@ -18,4 +18,8 @@ interface FormComponent
 
     public function error($message);
 
+    public function addBehavior(Behavior $behavior);
+
+    public function getBehaviors();
+
 }
