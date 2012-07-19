@@ -37,7 +37,12 @@ class MarkupParser
             maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?");
         }
 
-        return $element->get(0);
+        return $element;
+    }
+
+    public function findFirstChildComponentTagWithParentId(ComponentStub $component){
+        $node = $this->getTagForComponent($component);
+        return $node->children($this->pidSelector($component));
     }
 
     /**
@@ -101,11 +106,7 @@ class MarkupParser
         }
     }
 
-    public function findFirstChildComponentTagWithParentId(ComponentStub $component){
-       $node = $this->getTagForComponent($component);
 
-       return $node->children($this->pidSelector($component))->next();
-    }
 
     private function renderComponent(phpQueryObject $node, ComponentStub $component)
     {
