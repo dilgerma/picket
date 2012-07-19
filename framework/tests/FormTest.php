@@ -43,7 +43,6 @@ class FormTest extends BaseTestCase
 
         $rendered = $textField->getModel()->getValue();
         $this->assertEquals("blubb",$rendered);
-        $this->assertEquals("blubb-form",$form->getModel()->getValue());
 
     }
 

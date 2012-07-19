@@ -19,7 +19,7 @@ class MarkupParser
 
     /**
      * @param ComponentStub $component
-     * @return DOMElement
+     * @return phpQueryObject
      * @throws Exception if no element with the given id was found.
      */
     public function getTagForComponent(ComponentStub $component, phpQueryObject $startNode = null)
@@ -62,7 +62,7 @@ class MarkupParser
             $this->applyParameters($node, $component);
         }
         foreach ($component->fields() as $field) {
-            $this->processDocument($field, $startNode);
+            $this->processDocument($field, $node);
         }
     }
 

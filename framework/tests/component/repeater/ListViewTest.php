@@ -10,8 +10,7 @@ include_once __DIR__ . '/../../BaseTestCase.php';
 class ListViewTest extends BaseTestCase
 {
     public function testRenderListView(){
-        $listView = new TestListView();
-        $rendered = $listView->render();
+       fail("not yet implemented");
     }
 }
 
