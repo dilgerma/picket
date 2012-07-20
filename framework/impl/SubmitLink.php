@@ -6,7 +6,7 @@
  * Time: 13:28
  * To change this template use File | Settings | File Templates.
  */
-class SubmitButton extends FormComponentStub
+class SubmitLink extends FormComponentStub
 {
 
 
@@ -16,7 +16,7 @@ class SubmitButton extends FormComponentStub
      */
     public function getTagName()
     {
-        return "button";
+        return "input";
     }
 
     public function getType()

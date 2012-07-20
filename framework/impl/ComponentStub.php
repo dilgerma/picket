@@ -19,6 +19,7 @@ abstract class ComponentStub implements Component, Tag
     private $attributes = array();
     private $requestCycle;
     private $behaviors = array();
+    private $feedbackMessages;
 
 
     public function ComponentStub($id, $model)
@@ -29,6 +30,7 @@ abstract class ComponentStub implements Component, Tag
         $this->requestCycle = Configuration::getConfigurationInstance()->
             requestCycleProvider()->newRequestCycle($this);
         $this->requestCycle->onInitialize();
+        $this->feedbackMessages = new FeedbackMessages();
     }
 
     public function getRequestCycle()
@@ -50,9 +52,15 @@ abstract class ComponentStub implements Component, Tag
      */
     public function add($component)
     {
+        if($component instanceof Bindable){
+            $component->bind($this);
+        }
         array_push($this->fields, $component);
     }
 
+    /**
+     * @return array|ComponentStub
+     */
     public function fields()
     {
         return $this->fields;
@@ -103,6 +111,9 @@ abstract class ComponentStub implements Component, Tag
         $this->renderer = $tagRenderer;
     }
 
+
+
+
     /**
      * Renders the Markup for this component.
      *
@@ -128,6 +139,7 @@ abstract class ComponentStub implements Component, Tag
      */
     protected function renderMarkupTag($bodyContentMarkup)
     {
+
         $content = $this->getTagRenderer()->renderOpenTag();
         if (is_null($this->getTagBody())) {
             $content .= $bodyContentMarkup;
@@ -164,13 +176,13 @@ abstract class ComponentStub implements Component, Tag
      *
      * @return mixed
      */
-    public final function render()
+    public final function render($bodyMarkup=null)
     {
         $this->configure();
         foreach ($this->fields() as $field) {
             $field->configure();
         }
-        return $this->renderTag();
+        return $this->renderTag($bodyMarkup);
     }
 
     /**
@@ -196,7 +208,7 @@ abstract class ComponentStub implements Component, Tag
      * @return true if this component type can be rendered dynamically and thus
      * is not included in markup-validation.
      */
-    public function isDynamicallyRendered()
+    public function isWithoutMarkup()
     {
         return false;
     }
@@ -204,7 +216,7 @@ abstract class ComponentStub implements Component, Tag
 
     public function addBehavior(Behavior $behavior)
     {
-        $behavior->onBind($this);
+        $behavior->bind($this);
         array_push($this->behaviors, $behavior);
     }
 
@@ -244,6 +256,10 @@ abstract class ComponentStub implements Component, Tag
     public static function concatenateId($id, $additionalId)
     {
         return $id . ":" . $additionalId;
+    }
+
+    public function getFeedbackMessages(){
+        return $this->feedbackMessages;
     }
 
 

@@ -30,7 +30,7 @@ class DropDownOption extends FormComponentStub
         }
     }
 
-    public function isDynamicallyRendered()
+    public function isWithoutMarkup()
     {
         return true;
     }

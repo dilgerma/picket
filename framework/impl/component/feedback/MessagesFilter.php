@@ -2,10 +2,13 @@
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
- * Date: 18.07.12
- * Time: 10:22
+ * Date: 19.07.12
+ * Time: 15:12
  * To change this template use File | Settings | File Templates.
  */
-interface Behavior extends Lifecycle, Bindable
+interface MessagesFilter
 {
+    public function accepts(FeedbackMessage $message);
+
+
 }

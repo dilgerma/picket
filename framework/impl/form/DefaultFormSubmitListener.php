@@ -41,15 +41,17 @@ class DefaultFormSubmitListener implements FormSubmitListener
     }
 
 
-    private function handleField(FormComponentStub $field)
+    private function handleField(ComponentStub $field)
     {
-
-        $value = $this->requestParameters->getSubmittedValueFor($field);
-        $field->onValidate($value);
-        if ($field->hasErrors() === false) {
-            $field->onUpdateModel($value);
-            $field->onSubmit();
+        //only FormComponents participate in the LifeCycle
+        if (($field instanceof FormComponentStub)) {
+            $value = $this->requestParameters->getSubmittedValueFor($field);
+            $field->onValidate($value);
+            if ($field->hasErrors() === false) {
+                $field->onUpdateModel($value);
+                $field->onSubmit();
+            }
+            $field->onDetach();
         }
-        $field->onDetach();
     }
 }

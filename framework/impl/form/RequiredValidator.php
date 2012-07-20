@@ -13,7 +13,6 @@ class RequiredValidator implements Validator
     {
 
        if($value === ''){
-           echo "marking component error";
            $component->error("Dies ist ein Pflichtfeld");
        }
     }

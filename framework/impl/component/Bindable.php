@@ -2,10 +2,11 @@
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
- * Date: 18.07.12
- * Time: 10:22
+ * Date: 19.07.12
+ * Time: 15:06
  * To change this template use File | Settings | File Templates.
  */
-interface Behavior extends Lifecycle, Bindable
+interface Bindable
 {
+   public function bind(ComponentStub $component);
 }
