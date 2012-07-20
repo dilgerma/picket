@@ -10,20 +10,35 @@ include_once __DIR__ . '/../../BaseTestCase.php';
 class ListViewTest extends BaseTestCase
 {
     public function testRenderListView(){
-       fail("not yet implemented");
+       $testListView = new TestListView();
+       $rendered = $testListView->render();
+       $fields = $testListView->fields();
+       $this->assertEquals(3,count($fields));
+       foreach($fields as $key=>$field){
+           $this->assertEquals($testListView->getId().":".$key,$field->getId());
+       }
     }
 }
 
 class TestListView extends ListView {
 
     public function TestListView(){
-        $this->ListView("list", new SimpleModel(array("1","2","3")),$this->getPackage());
+        $this->ListView("list", new SimpleModel(array("hans","ist","toll")),$this->getPackage());
     }
 
     public function populateItem($markupId,$listItem)
     {
         $this->add(new TextField($markupId,new SimpleModel($listItem)));
     }
+
+    public function getMarkupFile()
+    {
+        $filename = $this->getPackage();
+        $markup = MarkupParser::getMarkupNameFromScript($filename);
+        return $markup;
+    }
+
+
 }
 ?>
 
