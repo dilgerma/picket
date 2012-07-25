@@ -11,6 +11,7 @@ class Form extends FormComponentStub
         $this->callbackURI = new FormCallBackUri($this);
         $this->addAttributes(array("method" => "post", "action" => $this->callbackURI->getCallbackURI()));
         $this->formSubmitListener = new DefaultFormSubmitListener($this);
+        $this->setTagRenderer(new ContainerComponentRenderer($this));
     }
 
     public function innerConfigure()
@@ -36,6 +37,9 @@ class Form extends FormComponentStub
     {
         //the form itself does never update its model, only the children.
     }
+
+
+
 
 
 }

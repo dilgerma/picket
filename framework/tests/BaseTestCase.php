@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__.'/../Autoloader.php';
 include_once 'PHPUnit/Autoload.php';
+require_once(__DIR__.'/SimpleTestMarkupParser.php');
 
 /**
  * Created by IntelliJ IDEA.

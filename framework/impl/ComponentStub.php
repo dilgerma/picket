@@ -17,22 +17,40 @@ abstract class ComponentStub implements Component, Tag
     private $required = false;
     private $renderer;
     private $attributes = array();
+    /**
+     * @var RequestCycle
+     */
     private $requestCycle;
     private $behaviors = array();
     private $feedbackMessages;
+    protected $log;
 
+    private $markupParser;
 
+    /**
+     * Component needs either a MarkupParser parsed directly or it takes the one
+     * given by its parent.
+     *
+     * @param $id
+     * @param $model
+     * @param null $markupParser
+     */
     public function ComponentStub($id, $model)
     {
         $this->id = $id;
         $this->model = $model;
+        $this->log = Logger::getLogger("Component");
         $this->renderer = new TagRenderer($this);
+        $this->addAttributes(array("pid"=>$this->getId()));
         $this->requestCycle = Configuration::getConfigurationInstance()->
             requestCycleProvider()->newRequestCycle($this);
         $this->requestCycle->onInitialize();
         $this->feedbackMessages = new FeedbackMessages();
     }
 
+    /**
+     * @return RequestCycle
+     */
     public function getRequestCycle()
     {
         return $this->requestCycle;
@@ -59,7 +77,7 @@ abstract class ComponentStub implements Component, Tag
     }
 
     /**
-     * @return array|ComponentStub
+     * @return ComponentStub
      */
     public function fields()
     {
@@ -76,6 +94,9 @@ abstract class ComponentStub implements Component, Tag
         return $this->required;
     }
 
+    /**
+     * @return IModel
+     */
     public function getModel()
     {
         return $this->model;
@@ -111,51 +132,6 @@ abstract class ComponentStub implements Component, Tag
         $this->renderer = $tagRenderer;
     }
 
-
-
-
-    /**
-     * Renders the Markup for this component.
-     *
-     * @param null $bodyContentMarkup optional body markup that is rendered, if the component has itself
-     * no body markup.
-     * @return string
-     */
-    public final function renderTag($bodyContentMarkup = null)
-    {
-        $this->requestCycle->onBeforeRender();
-        if ($this->isVisible()) {
-            $this->requestCycle->onRender();
-            $content = $this->renderMarkupTag($bodyContentMarkup);
-            $this->requestCycle->onAfterRender();
-            return $content;
-        }
-    }
-
-    /**
-     * override this function to provide a custom
-     * way your component is rendered.
-     * @return string
-     */
-    protected function renderMarkupTag($bodyContentMarkup)
-    {
-
-        $content = $this->getTagRenderer()->renderOpenTag();
-        if (is_null($this->getTagBody())) {
-            $content .= $bodyContentMarkup;
-        } else {
-            $content .= $this->getTagBody();
-        }
-        $content .= $this->getTagRenderer()->renderCloseTag();
-        return $content;
-    }
-
-
-    public function getTagBody()
-    {
-        return null;
-    }
-
     public function getTagRenderer()
     {
         return $this->renderer;
@@ -176,13 +152,29 @@ abstract class ComponentStub implements Component, Tag
      *
      * @return mixed
      */
-    public final function render($bodyMarkup=null)
+    public final function render(MarkupParser $markupParser)
     {
+        $this->log->debug("rendering ".$this->getId());
+        $this->getRequestCycle()->onMarkupTag();
+        $this->attachMarkup($markupParser);
+        $this->getRequestCycle()->onBeforeRender();
+        $this->log->debug("rendering component ".$this->getId()." to markup ".is_null($markupParser) ? "" : $markupParser->getMarkupPath());
         $this->configure();
-        foreach ($this->fields() as $field) {
-            $field->configure();
-        }
-        return $this->renderTag($bodyMarkup);
+        $this->getRequestCycle()->onRender();
+        $content = $this->getTagRenderer()->render($markupParser);
+        $this->getRequestCycle()->onAfterRender();
+        $this->getRequestCycle()->onDetach();
+        return $content;
+
+    }
+
+    /**
+     * Provides the possibility for containers to attach their markup
+     * to the final markup before the component is rendered.
+     * @param MarkupParser $markupParser
+     */
+    protected function attachMarkup(MarkupParser $markupParser){
+        //nothing to do for simple components.
     }
 
     /**
@@ -203,16 +195,6 @@ abstract class ComponentStub implements Component, Tag
     protected function innerConfigure()
     {
     }
-
-    /**
-     * @return true if this component type can be rendered dynamically and thus
-     * is not included in markup-validation.
-     */
-    public function isWithoutMarkup()
-    {
-        return false;
-    }
-
 
     public function addBehavior(Behavior $behavior)
     {
@@ -236,16 +218,6 @@ abstract class ComponentStub implements Component, Tag
         return $reflectOnThis->getFileName();
     }
 
-    /*
-     * this method handles everything that needs to be done
-     * to initialize a page for usage with picket-components.
-     * */
-    public static function pageInit()
-    {
-        session_start();
-
-    }
-
     /**
      * Concatenates 2 ids.
      * @static
@@ -262,5 +234,40 @@ abstract class ComponentStub implements Component, Tag
         return $this->feedbackMessages;
     }
 
+
+
+    public function error($message){
+        $this->feedbackMessages->addMessage(new FeedbackMessage($message,Level::ERROR));
+    }
+
+    public function hasErrors(){
+        $collector = new FeedbackMessagesCollector(new FeedbackMessagesLevelFilter(Level::ERROR));
+        $this->visit($collector);
+        return $collector->hasMessages();
+    }
+
+    public function visit(IVisitor $visit){
+        foreach($this->fields() as $field){
+            $field->visit($visit);
+        }
+        $visit->visit($this);
+    }
+
+    //simple components have no associated markup
+    public function hasAssociatedMarkup(){
+        return false;
+    }
+
+    /**
+     * Per default, a Component shows its model value in its body.
+     * @return mixed
+     */
+    public function getDisplayValue(){
+        return $this->getModel()->getValue();
+    }
+
+    public function getTagName(){
+        return null;
+    }
 
 }

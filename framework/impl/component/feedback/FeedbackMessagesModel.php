@@ -10,22 +10,22 @@ class FeedbackMessagesModel implements IModel
 {
     private $componentRoot;
     private $filter;
+    private $log;
 
-    public function FeedbackMessagesModel(ComponentStub $componentRoot, MessagesFilter $filter = null){
+    public function FeedbackMessagesModel(ComponentStub $componentRoot, MessagesFilter $filter = null)
+    {
         $this->componentRoot = $componentRoot;
         $this->filter = is_null($filter) ? new DefaultMessageFilter() : $filter;
+        $this->log = Logger::getLogger("Model");
     }
 
     public function getValue()
     {
-        $messages = array();
-        foreach($this->componentRoot->fields() as $field){
-           $messages =$this->addMessages($messages,$field->getFeedbackMessages()->getMessages($this->filter));
-        }
-        //and the root itself
-        $messages = $this->addMessages($messages,$this->componentRoot->getFeedbackMessages()->getMessages($this->filter));
-        return $messages;
 
+        $messagesCollector = new FeedbackMessagesCollector($this->filter);
+        $this->componentRoot->visit($messagesCollector);
+
+        return $messagesCollector->getMessages();
     }
 
     public function setValue($value)
@@ -33,7 +33,4 @@ class FeedbackMessagesModel implements IModel
         //noop
     }
 
-    private function addMessages(&$messages,$compoentMessages){
-        return array_merge($messages,$compoentMessages);
-    }
 }

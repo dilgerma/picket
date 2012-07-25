@@ -51,7 +51,6 @@ class DefaultFormSubmitListener implements FormSubmitListener
                 $field->onUpdateModel($value);
                 $field->onSubmit();
             }
-            $field->onDetach();
         }
     }
 }

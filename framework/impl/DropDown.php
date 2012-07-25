@@ -9,6 +9,11 @@
 class DropDown extends FormComponentStub
 {
 
+    public function DropDown($id,$model){
+        $this->FormComponentStub($id,$model);
+        $this->setTagRenderer(new ContainerComponentRenderer($this));
+    }
+
     public static function createWithOptions($id, $model, $options)
     {
         $dropDown = new DropDown($id, $model);
@@ -20,6 +25,7 @@ class DropDown extends FormComponentStub
         return $dropDown;
     }
 
+
     /**
      * Gets the Tagname
      * @return mixed
@@ -29,18 +35,23 @@ class DropDown extends FormComponentStub
         return "select";
     }
 
-    public function getTagBody()
-    {
-        $content = "";
-        foreach ($this->fields() as $field) {
-            $content .= $field->renderTag() . "<br/>";
-        }
-        return $content;
-    }
-
 
     public function getType()
     {
         return null;
+    }
+
+    //TODO extract to Container-Trait
+    protected function attachMarkup(MarkupParser $markupParser)
+    {
+
+        $node = $markupParser->getTagForComponent($this);
+        foreach ($this->fields() as $field) {
+            $field->getTagRenderer()->configure($markupParser);
+            $tag = $field->getTagRenderer()->renderOpenTag();
+            $tag .= $field->getTagRenderer()->renderCloseTag();
+            $this->log->debug("appending dropdown-option child ".$tag." to ".$this->getId());
+            $markupParser->appendChildNode($node, $tag);
+        }
     }
 }

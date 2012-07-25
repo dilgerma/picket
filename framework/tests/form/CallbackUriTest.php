@@ -15,7 +15,7 @@ class CallbackUriTest extends BaseTestCase
     public function testRender(){
         $callbackUri = new FormCallBackUri(new Form("test-form",new SimpleModel("test")));
         $script = $callbackUri->getScriptName();
-        echo $script;
+
     }
 
 }

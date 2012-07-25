@@ -22,6 +22,7 @@ class Configuration
     public static function getConfigurationInstance(){
         if(!isset(self::$configuration)){
             self::$configuration=new Configuration();
+            self::$configuration->configureLogging();
         }
         return self::$configuration;
     }
@@ -41,6 +42,14 @@ class Configuration
 
     public function setRequestParametersProvider($requestParameterProvider){
         $this->requestParameterProvider = $requestParameterProvider;
+    }
+
+    public function configureLogging(){
+        Logger::configure(__DIR__."/../../log4pconfig.xml");
+    }
+
+    public function getLogger(){
+        return Logger::getLogger("main");
     }
 
 }

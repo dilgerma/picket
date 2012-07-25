@@ -9,11 +9,11 @@
 class RequiredValidator implements Validator
 {
 
-    public function validate($component, $value)
+    public function validate(ComponentStub $component, $value)
     {
 
        if($value === ''){
-           $component->error("Dies ist ein Pflichtfeld");
+           $component->getFeedbackMessages()->addMessage(new FeedbackMessage("Dies ist ein Pflichtfeld", Level::ERROR));
        }
     }
 }

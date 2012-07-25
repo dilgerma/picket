@@ -13,6 +13,8 @@ class SimpleRequestCycle implements RequestCycle
     private $initializeCallback;
     private $beforeRenderCallback;
     private $afterRenderCallback;
+    private $markupTagCallback;
+    private $detachCallback;
 
     private $component;
 
@@ -21,6 +23,8 @@ class SimpleRequestCycle implements RequestCycle
         $this->initializeCallback = function(){};
         $this->beforeRenderCallback = function(){};
         $this->afterRenderCallback = function(){};
+        $this->markupTagCallback = function(){};
+        $this->detachCallback = function(){};
 
         $this->component = $component;
     }
@@ -52,19 +56,37 @@ class SimpleRequestCycle implements RequestCycle
         }
     }
 
+    public final function onMarkupTag(){
+        call_user_func($this->markupTagCallback,$this->component);
+        $behaviors = $this->component->getBehaviors();
+        foreach($behaviors as $behavior){
+            $behavior->onMarkupTag();
+        }
+    }
+
     public final function onInitialize(){
         call_user_func($this->initializeCallback, $this->component);
     }
 
-    public final function setRenderCallback($function){
-        $this->renderCallback = $function;
+    public function onDetach()
+    {
+        call_user_func($this->detachCallback, $this->component);
     }
 
-    public final function setBeforeRenderCallback($function){
-        $this->beforeRenderCallback = $function;
-    }
-
-    public final function setAfterRenderCallback($function){
-        $this->afterRenderCallback = $function;
+    /**
+     * @param $lifecyclePhase a phase as defined in this interface.
+     * @param $function the callback functino that may take a component as parameter
+     * @return mixed
+     */
+    public function setCallback($lifecyclePhase, $function)
+    {
+        switch($lifecyclePhase){
+            case RequestCycle::ON_INITIALIZE: $this->initializeCallback = $function;break;
+            case RequestCycle::ON_MARKUP: $this->markupTagCallback = $function;break;
+            case RequestCycle::ON_BEFORE_RENDER: $this->beforeRenderCallback = $function;break;
+            case RequestCycle::ON_RENDER: $this->renderCallback = $function;break;
+            case RequestCycle::ON_AFTER_RENDER: $this->afterRenderCallback = $function;break;
+            case RequestCycle::ON_DETACH: $this->detachCallback = $function;break;
+        }
     }
 }

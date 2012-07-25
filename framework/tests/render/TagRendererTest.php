@@ -14,7 +14,7 @@ class TagRendererTest extends BaseTestCase
     private $tagRenderer;
 
     function setUp(){
-        $this->tag = new TagForTest();
+        $this->tag = new TagForTest("test", new SimpleModel("test"));
         $this->tagRenderer = new TagRenderer($this->tag);
     }
 
@@ -25,14 +25,14 @@ class TagRendererTest extends BaseTestCase
 
     public function testRenderTag(){
         $renderer = $this->tagRenderer->renderOpenTag();
-        $this->assertEquals($renderer,"<test-tag id='test-id' action='test-action' >");
-        $this->assertEquals($this->tagRenderer->renderCloseTag(),"</test-tag>");
+        $this->assertEquals("<test-tag id='test-id' action='test-action' >",$renderer);
+        $this->assertEquals("</test-tag>",$this->tagRenderer->renderCloseTag());
     }
 
 
 }
 
-class TagForTest implements Tag  {
+class TagForTest extends ComponentStub  {
 
 
     /**

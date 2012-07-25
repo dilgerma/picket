@@ -17,5 +17,5 @@ interface Validator
      * @param $value the value stored in $_GET or $_POST.
      * @return mixed
      */
-    public function validate($component,$value);
+    public function validate(ComponentStub $component,$value);
 }

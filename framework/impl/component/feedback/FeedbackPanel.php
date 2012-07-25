@@ -8,27 +8,14 @@
  */
 class FeedbackPanel extends ListView
 {
-    private $componentBindedTo;
-
     public function FeedbackPanel($id, $component){
-       $this->componentBindedTo = $component;
-       $this->ListView($id,new FeedbackMessagesModel($this->componentBindedTo));
+       $this->ListView($id,new FeedbackMessagesModel($component));
+       $this->log->info("Instantiating FeedbackPanel, bindet to ".$component->getId());
     }
 
     public function populateItem($markupId, $value)
     {
-         $this->add(new TextField($markupId,new PropertyModel($value, "message")));
+         $this->add(new Label($markupId,new PropertyModel($value, "message")));
     }
-
-    /*
-     * Panels dont have markup, as they are rendered directly
-     * to the dom-tree.
-     * panel->render prints the whole markup out.
-     */
-    public function isWithoutMarkup()
-    {
-        return true;
-    }
-
 
 }

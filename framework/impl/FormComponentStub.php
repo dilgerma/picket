@@ -10,7 +10,6 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
 {
 
     private $validators;
-    private $errors;
     private $submitCallback;
 
     public function FormComponentStub($id, $model){
@@ -20,7 +19,6 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
             $this->addAttributes(array("type"=>$this->getType()));
         }
         $this->validators = array();
-        $this->errors = array();
         $this->submitCallback = function($value){};
     }
 
@@ -45,17 +43,6 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
 
     public function onSubmit(){
        call_user_func($this->submitCallback,$this->getModel()->getValue());
-    }
-
-    public function onDetach(){
-    }
-
-    public function hasErrors(){
-        return count($this->errors) > 0;
-    }
-
-    public function error($message){
-        array_push($this->errors,$message);
     }
 
     public function setSubmitCallback($function)

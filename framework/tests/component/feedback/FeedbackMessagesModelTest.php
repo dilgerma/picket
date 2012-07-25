@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__.'/../BaseTestCase.php';
+include_once __DIR__ . '/../BaseTestCase.php';
 
 /**
  * Created by IntelliJ IDEA.

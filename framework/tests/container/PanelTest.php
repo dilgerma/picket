@@ -10,13 +10,21 @@ require_once __DIR__.'/SimpleTestPanel.php';
  */
 class PanelTest extends BaseTestCase
 {
-   public function testMarkupIsLoaded(){
-       $panel = new SimpleTestPanel("test",new SimpleModel(""));
-       $this->assertEquals("<input name=\"text\" type=\"text\" value=\"blubb\" pid=\"text\" class=\"blubb\">",$panel->render()) ;
-   }
 
-    public function attributesAreCorrectlyReplaced(){
-        $panel = new SimpleTestPanel("test",new SimpleModel(""));
-        $this->assertEquals("<input name=\"text\" type=\"text\" value=\"blubb\" pid=\"text\" class=\"blubb\">",$panel->render()) ;
+    private $markupParser;
+
+    public function setUp()
+    {
+        $this->markupParser = new MarkupParser(__DIR__."/Page.html");
     }
+
+
+    public function testMarkupIsLoaded(){
+       $panel = new SimpleTestPanel("test",new SimpleModel(""));
+       $content = $panel->render($this->markupParser);
+       $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('value'=>'blubb')));
+        $this->assertTag($matcher,$content);
+    }
+
+
 }

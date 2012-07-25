@@ -6,9 +6,13 @@
  * Time: 13:28
  * To change this template use File | Settings | File Templates.
  */
-class SubmitButton extends FormComponentStub
+class SubmitButton extends ComponentStub
 {
 
+    public function SubmitButton($id,$model){
+        $this->ComponentStub($id,$model);
+        $this->setTagRenderer(new ModelValueTagBodyRenderer($this));
+    }
 
     /**
      * Gets the Tagname

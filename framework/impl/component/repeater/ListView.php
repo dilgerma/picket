@@ -11,19 +11,21 @@ abstract class ListView extends Panel
 
     public function ListView($id, IModel $listmodel)
     {
-        print_r($listmodel->getValue());
         $this->Panel($id, $listmodel);
-        $this->getRequestCycle()->setBeforeRenderCallback(function($component){
-            $component->appendChildNodes();
-            foreach ($component->getModel()->getValue() as $key => $value) {
-                //gets the component and adds it for each node that was created in appendChildNodes
-                $component->populateItem(ComponentStub::concatenateId($component->getId(), $key), $value);
-            }
-        });
     }
 
 
     public abstract function populateItem($markupId, $listItem);
+
+    protected function attachMarkup(MarkupParser $markupParser)
+    {
+        $this->appendChildNodes();
+        foreach ($this->getModel()->getValue() as $key => $value) {
+            //gets the component and adds it for each node that was created in appendChildNodes
+            $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
+        }
+        parent::attachMarkup($markupParser);
+    }
 
 
     /**
@@ -32,7 +34,7 @@ abstract class ListView extends Panel
      */
     public function getTagName()
     {
-        return "list";
+        return null;
     }
 
     /**
@@ -60,7 +62,7 @@ abstract class ListView extends Panel
     {
         $node = $this->getMarkupParser()->getTagForComponent($this);
 
-        if ($node->children()->length != 1) {
+       if ($node->children()->length != 1) {
             throw new Exception("To use a ListView, you provide one child that serves as template and has the same pid as the parent,
             unfortunately, I cannot find a single Tag and child with id " . $this->getId() . " in File " . $this->getMarkupFile()."\n
             Html is:\n".$this->getMarkupParser()->getDocument()->htmlOuter());
@@ -70,10 +72,12 @@ abstract class ListView extends Panel
         foreach ($this->getModel()->getValue() as $key => $value) {
             $clonedChild = $child->cloneNode();
             $domNode = $clonedChild->attributes->getNamedItem("pid");
+
             $domNode->nodeValue = ComponentStub::concatenateId($this->getId(),$key);
             $node->get(0)->appendChild($clonedChild);
         }
         $node->get(0)->removeChild($child);
+        $this->log->info("ListView::rendered ".$node->htmlOuter());
     }
 
 }

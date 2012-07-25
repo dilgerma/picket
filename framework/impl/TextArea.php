@@ -9,6 +9,11 @@
 class TextArea extends FormComponentStub
 {
 
+    public function TextArea($id,IModel $model){
+        $this->FormComponentStub($id,$model);
+        $this->setTagRenderer(new ModelValueTagBodyRenderer($this));
+    }
+
     public function getType()
     {
         return null;
@@ -21,10 +26,6 @@ class TextArea extends FormComponentStub
     public function getTagName()
     {
         return "textarea";
-    }
-
-    public function getTagBody(){
-       return $this->getModel()->getValue();
     }
 
 

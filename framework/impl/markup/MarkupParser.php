@@ -11,10 +11,14 @@ class MarkupParser
 {
 
     private $dom;
+    private $markupPath;
+    private $log;
 
     public function MarkupParser($path)
     {
         $this->dom = phpQuery::newDocumentFileHTML($path);
+        $this->markupPath = $path;
+        $this->log = Logger::getLogger("MarkupParser");
     }
 
     /**
@@ -28,19 +32,22 @@ class MarkupParser
         if (isset($startNode)) {
             $element = $startNode->find($pidSelector);
         } else {
-            $element = pq($pidSelector);
+            $element = pq($pidSelector, $this->dom->getDocumentID());
         }
 
         if ($element->length == 0) {
             $componentId = $component->getId();
             throw new Exception("MarkupElement for " . $componentId . " not found,
-            maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?");
+            maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?.\n
+                       Current Document is:\n
+            " . "\n\n" . $this->getDocument()->htmlOuter() . "\nLoaded from " . $this->markupPath . "\n");
         }
 
         return $element;
     }
 
-    public function findFirstChildComponentTagWithParentId(ComponentStub $component){
+    public function findFirstChildComponentTagWithParentId(ComponentStub $component)
+    {
         $node = $this->getTagForComponent($component);
         return $node->children($this->pidSelector($component));
     }
@@ -53,17 +60,18 @@ class MarkupParser
      *
      *
      */
-    public function processDocument(ComponentStub $component, phpQueryObject $startNode = null)
+    public function processContainerComponentChilds(ComponentStub $component, phpQueryObject $startNode = null)
     {
 
-        if ($component->isDynamicallyRendered() === false) {
-            $node = $this->getTagForComponent($component, $startNode);
-            $this->validateNode($node, $component);
-            $this->applyParameters($node, $component);
-        }
+
+
         foreach ($component->fields() as $field) {
-            $this->processDocument($field, $node);
+            $this->processContainerComponentChilds($field);
         }
+
+        $node = $this->getTagForComponent($component, $startNode);
+        $this->validateNode($node, $component);
+        $this->applyParameters($node, $component);
     }
 
     protected function validateNode(phpQueryObject $node, ComponentStub $component)
@@ -80,7 +88,7 @@ class MarkupParser
         unset($node);
     }
 
-    protected function applyParameters(phpQueryObject $node, ComponentStub $component)
+    public function applyParameters(phpQueryObject $node, ComponentStub $component)
     {
         $attributes = $component->getAttributes();
         $attributesToMerge = array();
@@ -94,39 +102,65 @@ class MarkupParser
         unset($attributesToMerge);
     }
 
-    public function replaceNodes(ComponentStub $component)
+    public function replaceMarkupNode(phpQueryObject $existingNode, $newNode)
     {
-        if ($component->isDynamicallyRendered() === false) {
-            $node = $this->getTagForComponent($component);
-            $content = $this->renderComponent($node, $component);
-            $node->replaceWith($content);
-        } ;
-        foreach ($component->fields() as $field) {
-            $this->replaceNodes($field);
-        }
+        $this->log->debug("Replacing Markup Node : ".$existingNode." with ".$newNode);
+        $existingNode->replaceWith($newNode);
     }
-
 
 
     private function renderComponent(phpQueryObject $node, ComponentStub $component)
     {
 
         $contentHtml = $node->html();
-        $this->applyParameters($node,$component);
-        return $component->renderTag($contentHtml);
+        $this->log->debug("applying parameters " . $component->getId());
+        $this->applyParameters($node, $component);
+        $this->log->debug("rendering component " . $component->getId());
+        $content = $component->render($this, $contentHtml);
+        $this->log->debug("Rendered Componenet " . $content);
+        return $content;
     }
 
     public function getDocument()
     {
-        return phpQuery::getDocument();
+        return phpQuery::getDocument($this->dom->getDocumentID());
     }
 
-    private function pidSelector($component){
+    private function pidSelector($component)
+    {
         return "[" . MarkupConstants::ID_ATTR . "=" . $component->getId() . "]";
     }
 
-    public static function getMarkupNameFromScript($scriptName){
-        $markup = str_replace(".php",".html",$scriptName);
+    public function getMarkupPath()
+    {
+        return $this->markupPath;
+    }
+
+    public static function getMarkupNameFromScript($scriptName)
+    {
+        $markup = str_replace(".php", ".html", $scriptName);
         return $markup;
+    }
+
+    public static function getCurrentScriptMarkup()
+    {
+        return MarkupParser::getMarkupNameFromScript(MarkupParser::getCurrentScript());
+    }
+
+    public static function getCurrentScript()
+    {
+        return $_SERVER['SCRIPT_NAME'];
+    }
+
+    public function appendChildNode(phpQueryObject $node,$content){
+        $node->append($content);
+    }
+
+    public function guessTagNameFromMarkup(ComponentStub $component)
+    {
+        $tagname = $this->getTagForComponent($component)->get(0)->nodeName;
+        $this->log->debug("Trying to guess TagName from Markup - ".$tagname." for component ".$component->getId());
+        return $tagname;
+
     }
 }

@@ -6,7 +6,7 @@
  * Time: 13:28
  * To change this template use File | Settings | File Templates.
  */
-class SubmitLink extends FormComponentStub
+class SubmitLink extends SubmitButton
 {
 
 

@@ -11,11 +11,13 @@ class FeedbackMessage
 
     private $message;
     private $level;
+    private $component;
 
-    public function FeedbackMessage($message, $level)
+    public function FeedbackMessage($message, $level,$component = null)
     {
         $this->message = $message;
         $this->level = $level;
+        $this->component = $component;
     }
 
     public function is($level){
@@ -26,7 +28,11 @@ class FeedbackMessage
         return $this->message;
     }
 
+    public function getComponent(){
+        return $this->component;
+    }
+
     public function __toString(){
-        return "Message : ".$this->message.", ".$this->level;
+        return "Message : ".$this->message.", ".$this->level.", ".$this->component;
     }
 }

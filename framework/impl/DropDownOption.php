@@ -15,7 +15,8 @@ class DropDownOption extends FormComponentStub
     {
        $this->FormComponentStub($id,$model);
        $this->addAttributes(array("value"=>$this->getModel()->getValue()));
-        $this->selectionModel = $selectionModel;
+       $this->selectionModel = $selectionModel;
+       $this->setTagRenderer(new ModelValueTagBodyRenderer($this));
     }
 
     public function getTagBody()

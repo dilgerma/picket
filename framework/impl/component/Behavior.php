@@ -6,6 +6,6 @@
  * Time: 10:22
  * To change this template use File | Settings | File Templates.
  */
-interface Behavior extends Lifecycle, Bindable
+interface Behavior extends RequestCycle, Bindable
 {
 }

@@ -47,7 +47,7 @@ class MarkupParserTest extends BaseTestCase
         $markupParser = new MarkupParser($this->basePath . "/test.html");
 
         try {
-            $markupParser->processDocument($textField);
+            $markupParser->processContainerComponentChilds($textField);
         } catch (Exception $e) {
             echo $e->getMessage() . "\n";
             //expected
@@ -61,14 +61,14 @@ class MarkupParserTest extends BaseTestCase
     {
         $textField = new TextField("text-id", new SimpleModel(""));
         $markupParser = new MarkupParser($this->basePath . "/test.html");
-        $markupParser->processDocument($textField);
+        $markupParser->processContainerComponentChilds($textField);
     }
 
     public function  testApplyParameters()
     {
         $textField = new TextField("text-id-with-params", new SimpleModel(""));
         $markupParser = new MarkupParser($this->basePath . "/test.html");
-        $markupParser->processDocument($textField);
+        $markupParser->processContainerComponentChilds($textField);
 
         $attributes = $textField->getAttributes();
         //class comes from html
@@ -85,7 +85,7 @@ class MarkupParserTest extends BaseTestCase
         $form->add($textField);
 
         $markupParser = new MarkupParser($this->basePath . "/test.html");
-        $markupParser->processDocument($form);
+        $markupParser->processContainerComponentChilds($form);
 
         //class comes from html
         $formAttributes = $form->getAttributes();
@@ -105,7 +105,7 @@ class MarkupParserTest extends BaseTestCase
         $form->add($textField);
         $markupParser = new MarkupParser($this->basePath . "/test.html");
         try {
-            $markupParser->processDocument($form);
+            $markupParser->processContainerComponentChilds($form);
         } catch (Exception $e) {
             //expected
             echo $e->getMessage() . "\n";
@@ -124,7 +124,7 @@ class MarkupParserTest extends BaseTestCase
 
 
         $markupParser = new MarkupParser($this->basePath . "/replace-test.html");
-        $markupParser->processDocument($form);
+        $markupParser->processContainerComponentChilds($form);
         $markupParser->replaceNodes($form);
 
         echo $markupParser->getDocument()->htmlOuter();
@@ -137,5 +137,10 @@ class MarkupParserTest extends BaseTestCase
         $child = $markupParser->findFirstChildComponentTagWithParentId($form);
         $this->assertEquals("<div pid=\"list\" class=\"child\"></div>",$child->htmlOuter());
 
+    }
+
+    public function testGetCurrentScriptName(){
+        $currentScript = MarkupParser::getCurrentScriptMarkup();
+        $this->assertEquals("html",substr($currentScript,-4));
     }
 }

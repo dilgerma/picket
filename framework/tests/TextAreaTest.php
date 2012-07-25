@@ -1,4 +1,7 @@
-<?php include_once(__DIR__.'/BaseTestCase.php');?>
+<?php include_once(__DIR__.'/BaseTestCase.php');
+
+require_once(__DIR__.'/SimpleTestMarkupParser.php');
+?>
 
 
 <?php
@@ -14,9 +17,11 @@ class TextAreaTest extends BaseTestCase
 {
 
     public function testRender(){
-        $textarea = new TextArea("text-area",new SimpleModel("Test-Value"));
-        $rendered = $textarea->renderTag();
-        $this->assertEquals("<textarea name='".$textarea->getId()."' >Test-Value</textarea>",$rendered);
+        $markupParser = new SimpleTestMarkupParser("SimpleMarkupTestFile.html");
+        $textarea = new TextArea("test",new SimpleModel("Test-Value"));
+        $rendered = $textarea->render($markupParser);
+        $matcher = array("tag"=>"textarea","attributes"=>array("name"=>$textarea->getId()),"content"=>"Test-Value");
+        $this->assertTag($matcher,$rendered);
     }
 
 }

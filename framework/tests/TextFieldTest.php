@@ -1,4 +1,7 @@
-<?php include_once(__DIR__.'/BaseTestCase.php');?>
+<?php include_once(__DIR__.'/BaseTestCase.php');
+
+require_once(__DIR__.'/SimpleTestMarkupParser.php');
+?>
 <?php
 
 
@@ -14,10 +17,14 @@ class TextFieldTest extends BaseTestCase
 
 
     public function testRender(){
-        $text = new TextField("theId", new SimpleModel("Display Text"));
+
+        $markupParser = new SimpleTestMarkupParser("SimpleMarkupTestFile.html");
+
+        $text = new TextField("test", new SimpleModel("Display Text"));
         $text->addAttributes(array("required"=>"required"));
-        $rendered = $text->renderTag();
-        $this->assertEquals("<input name='".$text->getId()."' type='text' required='required' ></input>",$rendered);
+        $rendered = $text->render($markupParser);
+        $matcher = array("tag"=>"input", "attributes"=>array("name"=>$text->getId(),"required"=>"required","type"=>"text","value"=>$text->getModel()->getValue()));
+        $this->assertTag($matcher,$rendered);
     }
 
 
