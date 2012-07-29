@@ -17,6 +17,6 @@ class DirectRenderToStreamWriter implements  RenderStreamWriter
     public function renderToStream(MarkupParser $markupParer, $content)
     {
         $this->log->debug("DirectToStreamWriter: ");
-        echo $markupParer->getDocument()->html();
+        echo $content;
     }
 }
