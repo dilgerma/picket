@@ -21,7 +21,6 @@ abstract class ListView extends ComponentStub
     protected function attachMarkup(MarkupParser $markupParser)
     {
         $this->appendChildNodes($markupParser);
-        $this->log->fatal($markupParser->getDocument()->getDOMDocument()->saveHTMLFile("/tmp/files.html"));
         foreach ($this->getModel()->getValue() as $key => $value) {
             //gets the component and adds it for each node that was created in appendChildNodes
             $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
