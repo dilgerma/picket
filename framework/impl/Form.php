@@ -38,8 +38,11 @@ class Form extends FormComponentStub
         //the form itself does never update its model, only the children.
     }
 
-
-
+    public function hasErrors()
+    {
+        $visitor = $this->visit(new FeedbackMessagesCollector(new FeedbackMessagesLevelFilter(Level::ERROR)));
+        return $visitor->hasMessages();
+    }
 
 
 }

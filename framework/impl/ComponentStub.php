@@ -251,6 +251,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
             $field->visit($visit);
         }
         $visit->visit($this);
+        return $visit;
     }
 
     public final function visitFunction($function){
