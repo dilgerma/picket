@@ -6,12 +6,13 @@
  * Time: 11:20
  * To change this template use File | Settings | File Templates.
  */
-abstract class ListView extends Panel
+abstract class ListView extends ComponentStub
 {
 
     public function ListView($id, IModel $listmodel)
     {
-        $this->Panel($id, $listmodel);
+        $this->ComponentStub($id, $listmodel);
+        $this->setTagRenderer(new ContainerComponentRenderer($this));
     }
 
 
@@ -20,15 +21,11 @@ abstract class ListView extends Panel
     protected function attachMarkup(MarkupParser $markupParser)
     {
         $this->appendChildNodes($markupParser);
+        $this->log->fatal($markupParser->getDocument()->getDOMDocument()->saveHTMLFile("/tmp/files.html"));
         foreach ($this->getModel()->getValue() as $key => $value) {
             //gets the component and adds it for each node that was created in appendChildNodes
             $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
         }
-
-        $node = $markupParser->getTagForComponent($this);
-        $this->log->info("replacing body of MarkupContainer ".$this->getId()."");
-        //hier müsste eigentlich $node->replace verwendet werden, funktioniert aber ncht
-        $node->prepend($this->getMarkupParser()->getTagForComponent($this)->htmlOuter()) ;
     }
 
 
@@ -85,8 +82,8 @@ abstract class ListView extends Panel
             $domNode->nodeValue = ComponentStub::concatenateId($this->getId(),$key);
             $node->get(0)->appendChild($clonedChild);
         }
-//        $node->get(0)->removeChild($child);
-        $this->log->info("ListView::rendered ".$node->htmlOuter());
+        $node->get(0)->removeChild($child);
+        $this->log->debug("ListView::rendered ".$node->htmlOuter());
     }
 
     private function throwInvalidMarkupException(MarkupParser $markupParser)
