@@ -32,6 +32,7 @@ class SimpleRequestCycle implements RequestCycle
     public final function onRender()
     {
         call_user_func($this->renderCallback,$this->component);
+        $this->component->onRender();
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
             $behavior->onRender();
@@ -42,6 +43,7 @@ class SimpleRequestCycle implements RequestCycle
     {
 
         call_user_func($this->beforeRenderCallback, $this->component);
+        $this->component->onBeforeRender();
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
             $behavior->onBeforeRender();
@@ -50,6 +52,7 @@ class SimpleRequestCycle implements RequestCycle
 
     public final function onAfterRender(){
         call_user_func($this->afterRenderCallback, $this->component);
+        $this->component->onAfterRender();
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
             $behavior->onAfterRender();
@@ -58,6 +61,7 @@ class SimpleRequestCycle implements RequestCycle
 
     public final function onMarkupTag(){
         call_user_func($this->markupTagCallback,$this->component);
+        $this->component->onMarkupTag();
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
             $behavior->onMarkupTag();
@@ -66,11 +70,13 @@ class SimpleRequestCycle implements RequestCycle
 
     public final function onInitialize(){
         call_user_func($this->initializeCallback, $this->component);
+        $this->component->onInitialize();
     }
 
     public function onDetach()
     {
         call_user_func($this->detachCallback, $this->component);
+        $this->component->onDetach();
     }
 
     /**

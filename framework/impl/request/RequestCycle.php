@@ -16,19 +16,6 @@ interface RequestCycle
     const ON_AFTER_RENDER = 5;
     const ON_DETACH = 6;
 
-
-    public function onMarkupTag();
-
-    public function onRender();
-
-    public function onBeforeRender();
-
-    public function onAfterRender();
-
-    public function onInitialize();
-
-    public function onDetach();
-
     /**
      * @abstract
      * @param $lifecyclePhase a phase as defined in this interface.

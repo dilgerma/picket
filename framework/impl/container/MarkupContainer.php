@@ -15,7 +15,6 @@ class MarkupContainer extends ComponentStub
         $this->ComponentStub($id,$model);
         $this->markupParser = new MarkupParser($this->getMarkupFile());
         $this->setTagRenderer(new MarkupContainerTagRenderer($this));
-
     }
 
     public function getMarkupFile(){
@@ -36,6 +35,8 @@ class MarkupContainer extends ComponentStub
     }
 
 
+
+
     /**
      * Gets the Tagname
      * @return mixed
@@ -44,5 +45,12 @@ class MarkupContainer extends ComponentStub
     {
         return null;
     }
+
+    public function onDetach()
+    {
+        parent::onDetach();
+        unset($this->markupParser);
+    }
+
 
 }

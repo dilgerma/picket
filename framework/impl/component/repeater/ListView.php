@@ -28,7 +28,7 @@ abstract class ListView extends Panel
         $node = $markupParser->getTagForComponent($this);
         $this->log->info("replacing body of MarkupContainer ".$this->getId()."");
         //hier müsste eigentlich $node->replace verwendet werden, funktioniert aber ncht
-        $node->append($this->getMarkupParser()->getTagForComponent($this)->htmlOuter()) ;
+        $node->prepend($this->getMarkupParser()->getTagForComponent($this)->htmlOuter()) ;
     }
 
 

@@ -7,7 +7,7 @@
  * Time: 12:35
  * To change this template use File | Settings | File Templates.
  */
-abstract class ComponentStub implements Component, Tag
+abstract class ComponentStub implements Component, Tag, LifeCycle
 {
 
     private $id;
@@ -273,10 +273,22 @@ abstract class ComponentStub implements Component, Tag
         return $this->getModel()->getValue();
     }
 
-
-
     public function getTagName(){
         return null;
     }
+
+    public function onMarkupTag(){}
+
+    public function onRender(){}
+
+    public function onBeforeRender(){}
+
+    public function onAfterRender(){}
+
+    public function onInitialize(){}
+
+    public function onDetach(){}
+
+
 
 }
