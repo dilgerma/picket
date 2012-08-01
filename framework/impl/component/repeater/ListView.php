@@ -19,7 +19,7 @@ abstract class ListView extends Panel
 
     protected function attachMarkup(MarkupParser $markupParser)
     {
-        $this->appendChildNodes();
+        $this->appendChildNodes($markupParser);
         foreach ($this->getModel()->getValue() as $key => $value) {
             //gets the component and adds it for each node that was created in appendChildNodes
             $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
@@ -62,16 +62,19 @@ abstract class ListView extends Panel
      *
      * @throws Exception
      */
-    public function appendChildNodes()
+    public function appendChildNodes(MarkupParser $markupParser)
     {
-        $node = $this->getMarkupParser()->getTagForComponent($this);
+        $node =$markupParser->getTagForComponent($this);
+
 
        if ($node->children()->length != 1) {
-            throw new Exception("To use a ListView, you provide one child that serves as template and has the same pid as the parent,
-            unfortunately, I cannot find a single Tag and child with id " . $this->getId() . "-child in File " . $this->getMarkupFile()."\n
-            Html is:\n".$this->getMarkupParser()->getDocument()->htmlOuter());
+           $this->throwInvalidMarkupException($markupParser);
         }
-        $child = $node->children()->get(0);
+
+        $child = $node->children("[pid='".$this->getId()."-child']")->get(0);
+        if(is_null($child)){
+            $this->throwInvalidMarkupException($markupParser);
+        }
 
         foreach ($this->getModel()->getValue() as $key => $value) {
 
@@ -82,8 +85,15 @@ abstract class ListView extends Panel
             $domNode->nodeValue = ComponentStub::concatenateId($this->getId(),$key);
             $node->get(0)->appendChild($clonedChild);
         }
-        $node->get(0)->removeChild($child);
+//        $node->get(0)->removeChild($child);
         $this->log->info("ListView::rendered ".$node->htmlOuter());
+    }
+
+    private function throwInvalidMarkupException(MarkupParser $markupParser)
+    {
+        throw new Exception("To use a ListView, you provide one child that serves as template,
+            unfortunately, I cannot find a single Tag and child with id " . $this->getId() . "-child \n
+            Html is:\n".$markupParser->getDocument()->htmlOuter());
     }
 
 }
