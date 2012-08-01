@@ -25,6 +25,8 @@ class ListViewTest extends BaseTestCase
         $this->assertTag($matcher,$rendered);
         $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list:2')));
         $this->assertTag($matcher,$rendered);
+
+        $this->log->debug(rendered);
     }
 }
 

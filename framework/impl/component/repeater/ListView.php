@@ -24,7 +24,11 @@ abstract class ListView extends Panel
             //gets the component and adds it for each node that was created in appendChildNodes
             $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
         }
-        parent::attachMarkup($markupParser);
+
+        $node = $markupParser->getTagForComponent($this);
+        $this->log->info("replacing body of MarkupContainer ".$this->getId()."");
+        //hier müsste eigentlich $node->replace verwendet werden, funktioniert aber ncht
+        $node->append($this->getMarkupParser()->getTagForComponent($this)->htmlOuter()) ;
     }
 
 
@@ -64,13 +68,15 @@ abstract class ListView extends Panel
 
        if ($node->children()->length != 1) {
             throw new Exception("To use a ListView, you provide one child that serves as template and has the same pid as the parent,
-            unfortunately, I cannot find a single Tag and child with id " . $this->getId() . " in File " . $this->getMarkupFile()."\n
+            unfortunately, I cannot find a single Tag and child with id " . $this->getId() . "-child in File " . $this->getMarkupFile()."\n
             Html is:\n".$this->getMarkupParser()->getDocument()->htmlOuter());
         }
         $child = $node->children()->get(0);
 
         foreach ($this->getModel()->getValue() as $key => $value) {
+
             $clonedChild = $child->cloneNode();
+
             $domNode = $clonedChild->attributes->getNamedItem("pid");
 
             $domNode->nodeValue = ComponentStub::concatenateId($this->getId(),$key);

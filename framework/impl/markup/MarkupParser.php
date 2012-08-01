@@ -40,7 +40,7 @@ class MarkupParser
             throw new Exception("MarkupElement for " . $componentId . " not found,
             maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?.\n
                        Current Document is:\n
-            " . "\n\n" . $this->getDocument()->htmlOuter() . "\nLoaded from " . $this->markupPath . "\n");
+            " . "\n\n" . $this->getDocument()->getDOMDocument()->saveHTML() . "\nLoaded from " . $this->markupPath . "\n");
         }
 
         return $element;
@@ -97,6 +97,7 @@ class MarkupParser
                 $attributesToMerge[$nodeElement->name] = $nodeElement->value;
             }
         }
+
 
         $component->addAttributes($attributesToMerge);
         unset($attributesToMerge);

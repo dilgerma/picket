@@ -12,7 +12,7 @@ class Autoloader
 
     private static $packages = array("impl", "impl/application", "impl/container", "impl/data",
         "impl/data/property","impl/component","impl/component/page","impl/component/repeater","impl/component/feedback",
-        "impl/form","impl/markup", "impl/render","impl/render/streamwriter", "impl/request","libs/log4php");
+        "impl/form","impl/form/validation","impl/markup", "impl/render","impl/render/streamwriter", "impl/request","libs/log4php");
 
 
     public static function loadClass($classname)

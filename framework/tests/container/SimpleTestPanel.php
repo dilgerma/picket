@@ -10,7 +10,7 @@ include_once __DIR__ . '/../BaseTestCase.php';
 class SimpleTestPanel extends Panel
 {
       public function SimpleTestPanel(){
-          $this->Panel("test-id",new SimpleModel(""));
+          $this->Panel("testObject",new SimpleModel(""));
           $this->add(new TextField("text", new SimpleModel("blubb")));
       }
 }

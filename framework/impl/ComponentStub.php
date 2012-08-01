@@ -246,11 +246,18 @@ abstract class ComponentStub implements Component, Tag
         return $collector->hasMessages();
     }
 
-    public function visit(IVisitor $visit){
+    public final function visit(IVisitor $visit){
         foreach($this->fields() as $field){
             $field->visit($visit);
         }
         $visit->visit($this);
+    }
+
+    public final function visitFunction($function){
+        foreach($this->fields() as $field){
+            $field->visitFunction($function);
+        }
+        call_user_func($function,$this);
     }
 
     //simple components have no associated markup
@@ -265,6 +272,8 @@ abstract class ComponentStub implements Component, Tag
     public function getDisplayValue(){
         return $this->getModel()->getValue();
     }
+
+
 
     public function getTagName(){
         return null;

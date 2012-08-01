@@ -50,6 +50,11 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
         $this->submitCallback = $function;
     }
 
+    public function hasErrors()
+    {
+        $messages = $this->getFeedbackMessages()->getMessages(new FeedbackMessagesLevelFilter(Level::ERROR));
+        return count($messages) > 0;
+    }
 
 
 }

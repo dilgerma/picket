@@ -14,7 +14,7 @@ class MarkupContainer extends ComponentStub
     public function MarkupContainer($id,IModel $model) {
         $this->ComponentStub($id,$model);
         $this->markupParser = new MarkupParser($this->getMarkupFile());
-        $this->setTagRenderer(new ContainerComponentRenderer($this));
+        $this->setTagRenderer(new MarkupContainerTagRenderer($this));
 
     }
 

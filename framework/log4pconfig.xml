@@ -3,15 +3,15 @@
  
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
 
-    <!--<appender name="myFileAppender" class="LoggerAppenderFile">-->
-        <!--<layout class="LoggerLayoutTTCC" />-->
-        <!--<param name="file" value="/tmp/myLog.log" />-->
-    <!--</appender>-->
+    <appender name="myFileAppender" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutTTCC" />
+        <param name="file" value="/tmp/myLog.log" />
+    </appender>
 
     
     <root>
-        <level value="INFO" />
+        <level value="DEBUG" />
         <appender_ref ref="myConsoleAppender" />
-        <!--<appender_ref ref="myFileAppender" />-->
+        <appender_ref ref="myFileAppender" />
     </root>
 </configuration>

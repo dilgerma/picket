@@ -30,7 +30,7 @@ class DefaultFormSubmitListener implements FormSubmitListener
 
     public function checkSubmit()
     {
-        return $this->requestParameters->isSubmitFor($this->component) && !$this->component->hasErrors();
+        return $this->requestParameters->isSubmitFor($this->component) && $this->component->hasErrors() === false;
     }
 
     public function process()
