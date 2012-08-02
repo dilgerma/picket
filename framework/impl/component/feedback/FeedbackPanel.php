@@ -26,7 +26,6 @@ class FeedbackPanel extends ListView
 
     public function isVisible()
     {
-        echo "check ".$this->feedbackModel->hasMessages();
         return $this->feedbackModel->hasMessages();
     }
 

@@ -160,12 +160,17 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         $this->attachMarkup($markupParser);
         $markupParser->applyParameters($markupParser->getTagForComponent($this), $this);
         $this->getRequestCycle()->onBeforeRender();
-        $this->log->debug("rendering component " . $this->getId() . " to markup " . is_null($markupParser) ? "" : $markupParser->getMarkupPath());
-        $this->configure();
-        $this->getRequestCycle()->onRender();
-        $content = $this->getTagRenderer()->render($markupParser);
-        $this->getRequestCycle()->onAfterRender();
-        $this->getRequestCycle()->onDetach();
+        if ($this->isVisible()) {
+            $this->log->debug("rendering component " . $this->getId() . " to markup " . is_null($markupParser) ? "" : $markupParser->getMarkupPath());
+            $this->configure();
+            $this->getRequestCycle()->onRender();
+            $content = $this->getTagRenderer()->render($markupParser);
+            $this->getRequestCycle()->onAfterRender();
+            $this->getRequestCycle()->onDetach();
+        } else {
+            $markupParser->getTagForComponent($this)->remove();
+            $content = "";
+        }
         return $content;
 
 
