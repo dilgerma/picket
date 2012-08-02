@@ -14,7 +14,6 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     private $model;
     private $fields = array();
     private $visible = true;
-    private $required = false;
     private $renderer;
     private $attributes = array();
     /**
@@ -41,7 +40,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         $this->model = $model;
         $this->log = Logger::getLogger("Component");
         $this->renderer = new TagRenderer($this);
-        $this->addAttributes(array("pid"=>$this->getId()));
+        $this->addAttributes(array("pid" => $this->getId()));
         $this->requestCycle = Configuration::getConfigurationInstance()->
             requestCycleProvider()->newRequestCycle($this);
         $this->requestCycle->onInitialize();
@@ -70,7 +69,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      */
     public function add($component)
     {
-        if($component instanceof Bindable){
+        if ($component instanceof Bindable) {
             $component->bind($this);
         }
         array_push($this->fields, $component);
@@ -113,14 +112,15 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         $this->attributes = array_merge($this->attributes, $attributes);
     }
 
-    public function appendAttribute(array $attributes){
-        foreach($attributes as $key=>$value){
+    public function appendAttribute(array $attributes)
+    {
+        foreach ($attributes as $key => $value) {
 
-            if(array_key_exists($key,$this->attributes)){
+            if (array_key_exists($key, $this->attributes)) {
 
                 $value = $this->attributes[$key];
-                $value.=" ".$attributes[$key];
-                $this->attributes = array_replace($this->attributes,array($key=>$value));
+                $value .= " " . $attributes[$key];
+                $this->attributes = array_replace($this->attributes, array($key => $value));
             } else {
                 $this->addAttributes($attributes);
             }
@@ -149,22 +149,25 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      * and set the selected value accordingly.
      *
      * scriptname-componentId
-     *
+     *                          ~
      * @return mixed
      */
     public final function render(MarkupParser $markupParser)
     {
-        $this->log->debug("rendering ".$this->getId());
+
+        $this->log->debug("rendering " . $this->getId());
         $this->getRequestCycle()->onMarkupTag();
         $this->attachMarkup($markupParser);
+        $markupParser->applyParameters($markupParser->getTagForComponent($this), $this);
         $this->getRequestCycle()->onBeforeRender();
-        $this->log->debug("rendering component ".$this->getId()." to markup ".is_null($markupParser) ? "" : $markupParser->getMarkupPath());
+        $this->log->debug("rendering component " . $this->getId() . " to markup " . is_null($markupParser) ? "" : $markupParser->getMarkupPath());
         $this->configure();
         $this->getRequestCycle()->onRender();
         $content = $this->getTagRenderer()->render($markupParser);
         $this->getRequestCycle()->onAfterRender();
         $this->getRequestCycle()->onDetach();
         return $content;
+
 
     }
 
@@ -173,7 +176,8 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      * to the final markup before the component is rendered.
      * @param MarkupParser $markupParser
      */
-    protected function attachMarkup(MarkupParser $markupParser){
+    protected function attachMarkup(MarkupParser $markupParser)
+    {
         //nothing to do for simple components.
     }
 
@@ -213,7 +217,8 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      * @return the folder of this class, typically this will be implemented like
      * dirname(__FILE__)
      */
-    public function getPackage(){
+    public function getPackage()
+    {
         $reflectOnThis = new ReflectionClass($this);
         return $reflectOnThis->getFileName();
     }
@@ -230,39 +235,44 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         return $id . ":" . $additionalId;
     }
 
-    public function getFeedbackMessages(){
+    public function getFeedbackMessages()
+    {
         return $this->feedbackMessages;
     }
 
 
-
-    public function error($message){
-        $this->feedbackMessages->addMessage(new FeedbackMessage($message,Level::ERROR));
+    public function error($message)
+    {
+        $this->feedbackMessages->addMessage(new FeedbackMessage($message, Level::ERROR));
     }
 
-    public function hasErrors(){
+    public function hasErrors()
+    {
         $collector = new FeedbackMessagesCollector(new FeedbackMessagesLevelFilter(Level::ERROR));
         $this->visit($collector);
         return $collector->hasMessages();
     }
 
-    public final function visit(IVisitor $visit){
-        foreach($this->fields() as $field){
+    public final function visit(IVisitor $visit)
+    {
+        foreach ($this->fields() as $field) {
             $field->visit($visit);
         }
         $visit->visit($this);
         return $visit;
     }
 
-    public final function visitFunction($function){
-        foreach($this->fields() as $field){
+    public final function visitFunction($function)
+    {
+        foreach ($this->fields() as $field) {
             $field->visitFunction($function);
         }
-        call_user_func($function,$this);
+        call_user_func($function, $this);
     }
 
     //simple components have no associated markup
-    public function hasAssociatedMarkup(){
+    public function hasAssociatedMarkup()
+    {
         return false;
     }
 
@@ -270,26 +280,42 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      * Per default, a Component shows its model value in its body.
      * @return mixed
      */
-    public function getDisplayValue(){
+    public function getDisplayValue()
+    {
         return $this->getModel()->getValue();
     }
 
-    public function getTagName(){
+    public function getTagName()
+    {
         return null;
     }
 
-    public function onMarkupTag(){}
+    /*
+     * Lifecycle Callbacks
+     * */
+    public function onMarkupTag()
+    {
+    }
 
-    public function onRender(){}
+    public function onRender()
+    {
+    }
 
-    public function onBeforeRender(){}
+    public function onBeforeRender()
+    {
+    }
 
-    public function onAfterRender(){}
+    public function onAfterRender()
+    {
+    }
 
-    public function onInitialize(){}
+    public function onInitialize()
+    {
+    }
 
-    public function onDetach(){}
-
+    public function onDetach()
+    {
+    }
 
 
 }

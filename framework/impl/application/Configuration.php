@@ -13,12 +13,20 @@ class Configuration
 
     private $requestCycleProvider;
     private $requestParameterProvider;
+    private $resourceLocatorProvider;
+    private $resourceSettings;
 
     public function Configuration(){
         $this->requestCycleProvider = new DefaultRequestCycleProvider();
         $this->requestParameterProvider = new DefaultRequestParameterProvider();
+        $this->resourceLocatorProvider = new ResourceLocatorProvider();
+        $this->resourceSettings = new ResourceSettings();
     }
 
+    /**
+     * @static
+     * @return Configuration
+     */
     public static function getConfigurationInstance(){
         if(!isset(self::$configuration)){
             self::$configuration=new Configuration();
@@ -27,6 +35,9 @@ class Configuration
         return self::$configuration;
     }
 
+    public function resourceLocatorProvider(){
+        return $this->resourceLocatorProvider;
+    }
 
     public function requestCycleProvider(){
         return $this->requestCycleProvider;
@@ -34,6 +45,13 @@ class Configuration
 
     public function requestParameterProvider(){
         return $this->requestParameterProvider;
+    }
+
+    /**
+     * @return ResourceSettings
+     */
+    public function resourceSettings(){
+        return $this->resourceSettings;
     }
 
     public function setRequestCycleProvider($requestCycleProvider){
@@ -44,6 +62,10 @@ class Configuration
         $this->requestParameterProvider = $requestParameterProvider;
     }
 
+    public function setResourceLocatorProvider($resourceLocatorProvider){
+        $this->resourceLocatorProvider = $resourceLocatorProvider;
+    }
+
     public function configureLogging(){
         Logger::configure(__DIR__."/../../log4pconfig.xml");
     }
@@ -51,5 +73,6 @@ class Configuration
     public function getLogger(){
         return Logger::getLogger("main");
     }
+
 
 }

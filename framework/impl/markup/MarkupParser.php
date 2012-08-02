@@ -46,12 +46,6 @@ class MarkupParser
         return $element;
     }
 
-    public function findFirstChildComponentTagWithParentId(ComponentStub $component)
-    {
-        $node = $this->getTagForComponent($component);
-        return $node->children($this->pidSelector($component));
-    }
-
     /**
      * @param $element
      * @param $component

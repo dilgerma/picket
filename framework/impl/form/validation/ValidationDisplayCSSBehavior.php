@@ -16,7 +16,7 @@ class ValidationDisplayCSSBehavior extends BehaviorAdapter {
     public function onRender()
     {
         if($this->component->hasErrors()){
-            $this->component->appendAttribute(array("class"=>"validation-error"));
+            $this->component->appendAttribute(array("class"=>"error"));
         }
     }
 

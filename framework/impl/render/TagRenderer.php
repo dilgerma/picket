@@ -62,8 +62,6 @@ class TagRenderer implements ComponentRenderer
 
     public function render(MarkupParser $markupParser){
         $this->configure($markupParser);
-
-        $markupParser->applyParameters($markupParser->getTagForComponent($this->component),$this->component);
         $content = $this->renderOpenTag();
         $content.=$this->renderBody($markupParser);
         $content.=$this->renderCloseTag();

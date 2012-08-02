@@ -24,8 +24,11 @@ class FeedbackMessagesModel implements IModel
 
         $messagesCollector = new FeedbackMessagesCollector($this->filter);
         $this->componentRoot->visit($messagesCollector);
-
         return $messagesCollector->getMessages();
+    }
+
+    public function hasMessages(){
+        return count($this->getValue())>0;
     }
 
     public function setValue($value)

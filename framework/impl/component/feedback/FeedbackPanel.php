@@ -8,8 +8,14 @@
  */
 class FeedbackPanel extends ListView
 {
+    /**
+     * @var FeedbackMessagesModel
+     */
+    private $feedbackModel;
+
     public function FeedbackPanel($id, $component){
-       $this->ListView($id,new FeedbackMessagesModel($component));
+       $this->feedbackModel =  new FeedbackMessagesModel($component);
+       $this->ListView($id,$this->feedbackModel);
        $this->log->info("Instantiating FeedbackPanel, bindet to ".$component->getId());
     }
 
@@ -17,5 +23,12 @@ class FeedbackPanel extends ListView
     {
          $this->add(new Label($markupId,new PropertyModel($value, "message")));
     }
+
+    public function isVisible()
+    {
+        echo "check ".$this->feedbackModel->hasMessages();
+        return $this->feedbackModel->hasMessages();
+    }
+
 
 }
