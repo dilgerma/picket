@@ -13,15 +13,21 @@ class FeedbackPanel extends ListView
      */
     private $feedbackModel;
 
-    public function FeedbackPanel($id, $component){
-       $this->feedbackModel =  new FeedbackMessagesModel($component);
-       $this->ListView($id,$this->feedbackModel);
-       $this->log->info("Instantiating FeedbackPanel, bindet to ".$component->getId());
+    public function FeedbackPanel($id, $component, IModel $feedbackModel = null)
+    {
+        if (is_null($feedbackModel)) {
+            //default value, shows all erros
+            $this->feedbackModel = new FeedbackMessagesModel($component);
+        } else {
+            $this->feedbackModel = $feedbackModel;
+        }
+        $this->ListView($id, $this->feedbackModel);
+        $this->log->info("Instantiating FeedbackPanel, bindet to " . $component->getId());
     }
 
     public function populateItem($markupId, $value)
     {
-         $this->add(new Label($markupId,new PropertyModel($value, "message")));
+        $this->add(new Label($markupId, new PropertyModel($value, "message")));
     }
 
     public function isVisible()

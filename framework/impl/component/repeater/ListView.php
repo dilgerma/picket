@@ -20,10 +20,13 @@ abstract class ListView extends ComponentStub
 
     protected function attachMarkup(MarkupParser $markupParser)
     {
-        $this->appendChildNodes($markupParser);
-        foreach ($this->getModel()->getValue() as $key => $value) {
-            //gets the component and adds it for each node that was created in appendChildNodes
-            $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
+        if (count($this->getModel()->getValue()) > 0) {
+            $this->appendChildNodes($markupParser);
+
+            foreach ($this->getModel()->getValue() as $key => $value) {
+                //gets the component and adds it for each node that was created in appendChildNodes
+                $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
+            }
         }
     }
 
@@ -60,15 +63,15 @@ abstract class ListView extends ComponentStub
      */
     public function appendChildNodes(MarkupParser $markupParser)
     {
-        $node =$markupParser->getTagForComponent($this);
+        $node = $markupParser->getTagForComponent($this);
 
 
-       if ($node->children()->length != 1) {
-           $this->throwInvalidMarkupException($markupParser);
+        if ($node->children()->length != 1) {
+            $this->throwInvalidMarkupException($markupParser);
         }
 
-        $child = $node->children("[pid='".$this->getId()."-child']")->get(0);
-        if(is_null($child)){
+        $child = $node->children("[pid='" . $this->getId() . "-child']")->get(0);
+        if (is_null($child)) {
             $this->throwInvalidMarkupException($markupParser);
         }
 
@@ -78,18 +81,18 @@ abstract class ListView extends ComponentStub
 
             $domNode = $clonedChild->attributes->getNamedItem("pid");
 
-            $domNode->nodeValue = ComponentStub::concatenateId($this->getId(),$key);
+            $domNode->nodeValue = ComponentStub::concatenateId($this->getId(), $key);
             $node->get(0)->appendChild($clonedChild);
         }
         $node->get(0)->removeChild($child);
-        $this->log->debug("ListView::rendered ".$node->htmlOuter());
+        $this->log->debug("ListView::rendered " . $node->htmlOuter());
     }
 
     private function throwInvalidMarkupException(MarkupParser $markupParser)
     {
         throw new Exception("To use a ListView, you provide one child that serves as template,
             unfortunately, I cannot find a single Tag and child with id " . $this->getId() . "-child \n
-            Html is:\n".$markupParser->getDocument()->htmlOuter());
+            Html is:\n" . $markupParser->getDocument()->htmlOuter());
     }
 
 }

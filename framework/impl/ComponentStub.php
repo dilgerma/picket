@@ -159,6 +159,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     public final function render(MarkupParser $markupParser)
     {
 
+
         $this->log->debug("rendering " . $this->getId());
         $this->getRequestCycle()->onMarkupTag();
         $this->attachMarkup($markupParser);
@@ -199,6 +200,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      */
     public final function configure()
     {
+
         $this->innerConfigure();
         foreach ($this->fields() as $field) {
             $field->configure();
@@ -249,6 +251,9 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         return $this->feedbackMessages;
     }
 
+    public function info($message){
+        $this->feedbackMessages->addMessage(new FeedbackMessage($message,Level::INFO));
+    }
 
     public function error($message)
     {

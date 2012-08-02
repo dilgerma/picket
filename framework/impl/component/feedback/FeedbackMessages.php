@@ -10,6 +10,7 @@ class FeedbackMessages {
 
     private $messages = array();
 
+
     public function getMessages(MessagesFilter $filter){
        return array_filter($this->messages,function ($var) use (&$filter){
             return $filter->accepts($var);

@@ -6,7 +6,7 @@
  * Time: 15:01
  * To change this template use File | Settings | File Templates.
  */
-class FeedbackMessagesModel implements IModel
+class FeedbackMessagesModel implements IModel, MessagesModel
 {
     private $componentRoot;
     private $filter;
