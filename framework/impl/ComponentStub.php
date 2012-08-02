@@ -88,6 +88,10 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         return $this->visible;
     }
 
+    public function setVisible($visible){
+        $this->visible = $visible;
+    }
+
     public function isRequired()
     {
         return $this->required;

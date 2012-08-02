@@ -25,6 +25,23 @@ class ComponentStubTest extends BaseTestCase
         $attributes = $stub->getAttributes();
         $this->assertEquals("test test-2",$attributes["class"]);
     }
+
+    public function testVisibility(){
+        $component = new Label("test", new SimpleModel("test-value"));
+        $markupParser = new SimpleTestMarkupParser("SimpleMarkupTestFile.html");
+        $component->render($markupParser);
+
+        $matcher = array("tag"=>"div","content"=>"test-value");
+        $this->assertTag($matcher,$markupParser->getDocument()->html());
+
+        $component->setVisible(false);
+        $markupParser = new SimpleTestMarkupParser("SimpleMarkupTestFile.html");
+        $component->render($markupParser);
+
+        $this->assertEquals(trim($markupParser->getDocument()->html()),"");
+
+
+    }
 }
 
  class TestComponent extends ComponentStub{
