@@ -16,20 +16,51 @@ abstract class ListView extends ComponentStub
     }
 
 
-    public abstract function populateItem($markupId, $listItem);
+    /**
+     *
+     * This is the Method that is called for each childnode, and where you can
+     * add your elements, unfortunately, this is currently not as easy to use
+     * as I´d wish to.
+     *
+     * you have the parameter markupId, this is the id of your markupNode with the appendix "-child".
+     * If there are any child-nodes within the "-child"-node, you need to attach the given markupIdSuffix to each Id,
+     * so that we can uniqely identify each node.
+     *
+     * markupIdSuffix is only important, if you have a deeper hierarchy within you "-child" children.
+     * Take the follwing example:
+     *
+     * <div pid="listView">
+     *  <div pid="listView-child"/>
+     * </div>
+     *
+     * This is the simplest case for a ListView, and in this case, markupIdSuffix can be ignored.
+     *
+     * <div pid="listView">
+     *  <div pid="listView-child">
+     *      <div pid="listView-inner"/>
+     *  </div>
+     * </div>
+     *
+     * In this case, to add the listView-inner Component, you need to call the following within populateItem-function.
+     * $this->toListViewMarkupId("listView-inner",$markupIdSuffix), that generates something like:
+     *
+     * "listView-inner:0"
+     *
+     * @abstract
+     * @param $markupId
+     * @param IModel $listItem
+     * @param $markupIdSuffix
+     * @return mixed
+     */
+    public abstract function populateItem($markupId, IModel $listItem, $markupIdSuffix);
 
     protected function attachMarkup(MarkupParser $markupParser)
     {
         if (count($this->getModel()->getValue()) > 0) {
             $this->appendChildNodes($markupParser);
-
-            foreach ($this->getModel()->getValue() as $key => $value) {
-                //gets the component and adds it for each node that was created in appendChildNodes
-                $this->populateItem(ComponentStub::concatenateId($this->getId(), $key), $value);
-            }
+            $this->appendChildComponents();
         }
     }
-
 
     /**
      * Gets the Tagname
@@ -77,15 +108,71 @@ abstract class ListView extends ComponentStub
 
         foreach ($this->getModel()->getValue() as $key => $value) {
 
-            $clonedChild = $child->cloneNode();
+            $clonedChild = $child->cloneNode(true);
 
-            $domNode = $clonedChild->attributes->getNamedItem("pid");
+            $this->addIterationSuffixToPID($clonedChild, $key);
 
-            $domNode->nodeValue = ComponentStub::concatenateId($this->getId(), $key);
             $node->get(0)->appendChild($clonedChild);
         }
+        //at last, remove the original child, so that only the
+        //automatically generated childs remain.
         $node->get(0)->removeChild($child);
         $this->log->debug("ListView::rendered " . $node->htmlOuter());
+    }
+
+    private function appendChildComponents(){
+        foreach ($this->getModel()->getValue() as $key => $value) {
+            //gets the component and adds it for each node that was created in appendChildNodes
+            $this->populateItem($this->toListViewMarkupId($this->getId()."-child", $key), new SimpleModel($value), $key);
+        }
+    }
+
+
+    /**
+     * As each tag within the dom document needs to have a unique pid,
+     * this method iterates over all children of the given dom-node and
+     * appends the suffix to their pid.
+     *
+     * For example:
+     * if we have the domnode
+     * <div pid="test"/>
+     * and the suffix "0"
+     *
+     * after this method has finished, the domnode looks like this:
+     *
+     * <div pid="test:0"/>
+     *
+     * @param DOMNode $domNode
+     * @param $suffix
+     */
+    private function addIterationSuffixToPID(DOMNode $domNode, $suffix)
+    {
+        if(count($domNode->childNodes)<=0){
+            return;
+        }
+        foreach ($domNode->childNodes as $child) {
+            $this->addIterationSuffixToPID($child, $suffix);
+        }
+
+        if (is_null($domNode->attributes) === false) {
+            $pid = $domNode->attributes->getNamedItem("pid");
+            $pid->nodeValue = ComponentStub::concatenateId($pid->nodeValue, $suffix);
+        }
+
+    }
+
+    /**
+     * Builds the concatenated markup id for list view childs.
+     *
+     * Concatenated ids look like "markupId" + ":" + "0" where 0 is the suffix that the
+     * list view automatically generated.
+     *
+     * @param $markupId
+     * @param $markupIdSuffix
+     * @return string
+     */
+    protected function toListViewMarkupId($markupId, $markupIdSuffix){
+        return $markupId.":".$markupIdSuffix;
     }
 
     private function throwInvalidMarkupException(MarkupParser $markupParser)
@@ -94,5 +181,7 @@ abstract class ListView extends ComponentStub
             unfortunately, I cannot find a single Tag and child with id " . $this->getId() . "-child \n
             Html is:\n" . $markupParser->getDocument()->htmlOuter());
     }
+
+
 
 }

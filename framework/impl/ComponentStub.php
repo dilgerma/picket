@@ -63,11 +63,12 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         return $this->id;
     }
 
+
     /**
      * @param $component
      * @return mixed
      */
-    public function add($component)
+    public function add(ComponentStub $component)
     {
         if ($component instanceof Bindable) {
             $component->bind($this);
@@ -302,6 +303,15 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     public function getTagName()
     {
         return null;
+    }
+
+    /*
+     * Direct Render
+     * Renders this component directly to the current script.
+     * */
+    public function renderDirectly(){
+        $this->getTagRenderer()->setStreamWriter(new DirectRenderToStreamWriter($this));
+        $this->render(new MarkupParser($_SERVER['SCRIPT_FILENAME']));
     }
 
     /*

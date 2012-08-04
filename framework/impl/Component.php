@@ -20,7 +20,7 @@ interface Component
      * @param $component
      * @return mixed
      */
-    public function add($component);
+    public function add(ComponentStub $component);
 
     /**
      * returns all fields that are added to this component

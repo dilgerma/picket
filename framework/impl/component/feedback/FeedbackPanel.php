@@ -25,9 +25,9 @@ class FeedbackPanel extends ListView
         $this->log->info("Instantiating FeedbackPanel, bindet to " . $component->getId());
     }
 
-    public function populateItem($markupId, $value)
+    public function populateItem($markupId, IModel $value, $markupIdSuffix)
     {
-        $this->add(new Label($markupId, new PropertyModel($value, "message")));
+        $this->add(new Label($markupId, new PropertyModel($value->getValue(), "message")));
     }
 
     public function isVisible()

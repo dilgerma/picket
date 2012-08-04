@@ -36,9 +36,9 @@ class TestListView extends ListView {
         $this->ListView("list", new SimpleModel(array("hans","ist","toll")),$this->getPackage());
     }
 
-    public function populateItem($markupId,$listItem)
+    public function populateItem($markupId,IModel $listItem, $markupIdSuffix)
     {
-        $this->add(new TextField($markupId,new SimpleModel($listItem)));
+        $this->add(new TextField($markupId,$listItem));
     }
 
     public function getMarkupFile()

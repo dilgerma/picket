@@ -22,11 +22,26 @@ class PropertyModel implements IModel
 
     public function getValue()
     {
-        return $this->propertyResolver->resolveProperty($this->object,$this->expression);
+        return $this->propertyResolver->resolveProperty($this->unchainModel($this->object),$this->expression);
     }
 
     public function setValue($value)
     {
-        $this->propertyResolver->setProperty($this->object,$this->expression,$value);
+        $this->propertyResolver->setProperty($this->unchainModel($this->object),$this->expression,$value);
     }
+
+    private function unchainModel($object){
+        if($object instanceof IModel){
+            return $object->getValue();
+        } else {
+            return $object;
+        }
+    }
+
+    function __toString()
+    {
+        return "PropertyModel: Expression ".$this->expression." Value: ".$this->getValue();
+    }
+
+
 }
