@@ -1,0 +1,5 @@
+Sun Aug  5 13:45:14 2012,009 [831] DEBUG Component - rendering test
+Sun Aug  5 13:45:14 2012,015 [831] DEBUG Component - 
+Sun Aug  5 13:45:14 2012,015 [831] DEBUG Component - rendered tag for test <img pid='test' src='test/image.png' ></img>
+Sun Aug  5 13:45:14 2012,015 [831] DEBUG Component - MarkupParserRenderStreamWriter::rendering to stream <img pid='test' src='test/image.png' ></img>
+Sun Aug  5 13:45:14 2012,015 [831] DEBUG MarkupParser - Replacing Markup Node : <div pid="test"></div> with <img pid='test' src='test/image.png' ></img>
