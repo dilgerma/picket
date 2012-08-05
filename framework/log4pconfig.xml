@@ -5,13 +5,13 @@
 
     <appender name="myFileAppender" class="LoggerAppenderFile">
         <layout class="LoggerLayoutTTCC" />
-        <param name="file" value="/tmp/myLog.log" />
+        <param name="file" value="logs/myLog.out" />
     </appender>
 
     
     <root>
         <level value="DEBUG" />
         <appender_ref ref="myConsoleAppender" />
-        <appender_ref ref="myFileAppender" />
+        <!--<appender_ref ref="myFileAppender" />-->
     </root>
 </configuration>
