@@ -6,8 +6,13 @@
  * Time: 13:28
  * To change this template use File | Settings | File Templates.
  */
-class SubmitButton extends ComponentStub
+class SubmitButton extends ComponentStub implements Bindable
 {
+
+    /**
+     * @var Form
+     */
+    private $form;
 
     public function SubmitButton($id,$model){
         $this->ComponentStub($id,$model);
@@ -26,5 +31,14 @@ class SubmitButton extends ComponentStub
     public function getType()
     {
         return "submit";
+    }
+
+
+    public function bind(ComponentStub $component)
+    {
+        if(!$component instanceof Form){
+            throw new Exception("SubmitButton must only be added to forms!");
+        }
+        $this->form = $component;
     }
 }

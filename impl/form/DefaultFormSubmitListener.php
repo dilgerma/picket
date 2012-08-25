@@ -26,6 +26,7 @@ class DefaultFormSubmitListener implements FormSubmitListener
         }
         //and last the form itself
         $this->handleField($this->component);
+        $component->setSubitted();
     }
 
     public function checkSubmit()

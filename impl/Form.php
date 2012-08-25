@@ -5,6 +5,12 @@ class Form extends FormComponentStub
 
     private $callbackURI;
 
+    /**
+     * @var bool currently i dont know, why form is submitted twice...:(, so
+     * i store a flag, that indicates that form submission already happened.
+     */
+    private $formSubmitted = false;
+
     public function Form($id, $model)
     {
         $this->FormComponentStub($id, $model);
@@ -16,7 +22,14 @@ class Form extends FormComponentStub
 
     public function innerConfigure()
     {
-        $this->formSubmitListener->process();
+        /**
+         * Temporary Fix the Bug that Form Submission is done twice...
+         */
+        if ($this->formSubmitted === false) {
+            $this->formSubmitListener->process();
+        }
+        $this->formSubmitted = true;
+        return;
     }
 
     /**
@@ -42,6 +55,10 @@ class Form extends FormComponentStub
     {
         $visitor = $this->visit(new FeedbackMessagesCollector(new FeedbackMessagesLevelFilter(Level::ERROR)));
         return $visitor->hasMessages();
+    }
+
+    public function isSubmitted(){
+        return $this->formSubmitted;
     }
 
 
