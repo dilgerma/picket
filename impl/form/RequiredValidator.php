@@ -9,11 +9,17 @@
 class RequiredValidator implements Validator
 {
 
+    const defautMsg = "Dies ist ein Pflichtfeld";
+
     public function validate(ComponentStub $component, $value)
     {
 
        if($value === ''){
-           $component->getFeedbackMessages()->addMessage(new FeedbackMessage("Dies ist ein Pflichtfeld", Level::ERROR));
+           $msg = RequiredValidator::defautMsg;
+           if($component->getLabel() !== ""){
+               $msg = $component->getLabel()." ist ein Pflichtfeld";
+           }
+           $component->getFeedbackMessages()->addMessage(new FeedbackMessage($msg, Level::ERROR));
        }
     }
 }

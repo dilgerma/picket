@@ -23,8 +23,9 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     private $behaviors = array();
     private $feedbackMessages;
     protected $log;
+    //label that can be used to display text
+    private $label;
 
-    private $markupParser;
 
     /**
      * Component needs either a MarkupParser parsed directly or it takes the one
@@ -32,9 +33,10 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      *
      * @param $id
      * @param $model
+     * @param $label the label to display (can be used in validators etc)
      * @param null $markupParser
      */
-    public function ComponentStub($id, $model)
+    public function ComponentStub($id, $model, $label="")
     {
         $this->id = $id;
         $this->model = $model;
@@ -45,6 +47,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
             requestCycleProvider()->newRequestCycle($this);
         $this->requestCycle->onInitialize();
         $this->feedbackMessages = new FeedbackMessages();
+        $this->label = $label;
     }
 
     /**
@@ -61,6 +64,17 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string the label for this component, can be used to display some information
+     */
+    public function getLabel(){
+        return $this->label;
+    }
+
+    public function setLabel($label){
+        $this->label = $label;
     }
 
 

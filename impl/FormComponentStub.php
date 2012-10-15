@@ -12,8 +12,8 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
     private $validators;
     private $submitCallback;
 
-    public function FormComponentStub($id, $model){
-        $this->ComponentStub($id,$model);
+    public function FormComponentStub($id, $model, $label=""){
+        $this->ComponentStub($id,$model,$label);
         $this->addAttributes(array("name"=>$this->getId()));
         if($this->getType() != null){
             $this->addAttributes(array("type"=>$this->getType()));
