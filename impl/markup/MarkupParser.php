@@ -147,6 +147,10 @@ class MarkupParser
         return $_SERVER['SCRIPT_NAME'];
     }
 
+    public static function getCurrentMarkupName(){
+        return MarkupParser::getMarkupNameFromScript($_SERVER['SCRIPT_FILENAME']);
+    }
+
     public function appendChildNode(phpQueryObject $node,$content){
         $node->append($content);
     }

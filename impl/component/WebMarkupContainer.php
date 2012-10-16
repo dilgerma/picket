@@ -8,6 +8,7 @@
  */
 class WebMarkupContainer extends ComponentStub
 {
+
      public function WebMarkupContainer($id, IModel $model){
          $this->ComponentStub($id,$model);
          $this->setTagRenderer(new ContainerComponentRenderer($this));
