@@ -31,6 +31,7 @@ class WebPageTest extends BaseTestCase
         $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
         $label =  new Label("test-id", new SimpleModel("Hello Unit Test"));
         $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","js",new JavaScriptResourceRenderer())));
+        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","css",new CSSResourceRenderer())));
         $testWebPage->add($label);
         $testWebPage->add(new Label("test-id-2", new SimpleModel("All Tags get Replaced")));
 
@@ -41,6 +42,8 @@ class WebPageTest extends BaseTestCase
         $markupTester = new MarkupTester($content, false);
         $markupTester->tagExists("html")->tagExists("head")->tagExists("script")->attributeEquals("language","JavaScript")->attributeEquals("src","scripts/deeper/deeper.js");
 
+        $cssMarkupTester = new MarkupTester($content,false);
+        $cssMarkupTester->tagExists("html")->tagExists("head")->tagExists("link")->attributeEquals("rel","stylesheet")->attributeEquals("href","scripts/deeper/style.css");
     }
 
 }
