@@ -18,22 +18,22 @@ class BehaviorAdapter implements Behavior
         // TODO: Implement bind() method.
     }
 
-    public function onMarkupTag()
+    public function onMarkupTag(MarkupParser $markupParser)
     {
         // TODO: Implement onMarkupTag() method.
     }
 
-    public function onRender()
+    public function onRender(MarkupParser $markupParser)
     {
         // TODO: Implement onRender() method.
     }
 
-    public function onBeforeRender()
+    public function onBeforeRender(MarkupParser $markupParser)
     {
         // TODO: Implement onBeforeRender() method.
     }
 
-    public function onAfterRender()
+    public function onAfterRender(MarkupParser $markupParser)
     {
         // TODO: Implement onAfterRender() method.
     }

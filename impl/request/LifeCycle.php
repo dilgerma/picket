@@ -8,13 +8,13 @@
  */
 interface LifeCycle
 {
-    public function onMarkupTag();
+    public function onMarkupTag(MarkupParser $markupParser);
 
-    public function onRender();
+    public function onRender(MarkupParser $markupParser);
 
-    public function onBeforeRender();
+    public function onBeforeRender(MarkupParser $markupParser);
 
-    public function onAfterRender();
+    public function onAfterRender(MarkupParser $markupParser);
 
     public function onInitialize();
 

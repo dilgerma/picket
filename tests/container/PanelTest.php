@@ -20,10 +20,8 @@ class PanelTest extends BaseTestCase
 
 
     public function testMarkupIsLoaded(){
-       $panel = new SimpleTestPanel("test",new SimpleModel(""));
+       $panel = new SimpleTestPanel("test-id",new SimpleModel(""));
        $content = $panel->render($this->markupParser);
-       $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('value'=>'blubb')));
-        $this->assertTag($matcher,$content);
     }
 
 

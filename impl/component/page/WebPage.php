@@ -24,6 +24,24 @@ class WebPage extends WebMarkupContainer
         $this->WebMarkupContainer($markupId,$model);
     }
 
+    /**
+     * renders all header contributions
+     * @param MarkupParser $markupParser
+     */
+    public function onBeforeRender(MarkupParser $markupParser)
+    {
+
+        parent::onBeforeRender($markupParser);
+        $behaviorCollector = new BehaviorCollector();
+        $this->visit($behaviorCollector);
+
+        $collected = $behaviorCollector->getCollectedBehaviors();
+        foreach($collected as $behavior){
+            $behavior->renderHead($markupParser);
+        }
+    }
+
+
     /*
    * Direct Render
    * Renders this component directly to the current script.

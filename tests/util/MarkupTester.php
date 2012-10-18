@@ -31,6 +31,7 @@ class MarkupTester extends BaseTestCase
         return $this;
     }
 
+
     public function attributeEquals($attributeName, $value){
         $attribute = $this->node->get(0)->attributes;
         $this->assertEquals($attribute->getNamedItem($attributeName)->nodeValue,$value);
@@ -41,6 +42,10 @@ class MarkupTester extends BaseTestCase
         $nodeValue = $this->node->get(0)->nodeValue;
         $this->assertEquals($nodeValue,$value);
         return $this;
+    }
+
+    public function dumpCurrent(){
+        echo $this->node->htmlOuter();
     }
 
     /**

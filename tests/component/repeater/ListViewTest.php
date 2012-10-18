@@ -11,22 +11,20 @@ class ListViewTest extends BaseTestCase
 {
     public function testRenderListView(){
        $testListView = new TestListView();
-       $rendered = $testListView->render($testListView->getMarkupParser());
+       $rendered = $testListView->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
        $fields = $testListView->fields();
        $this->assertEquals(3,count($fields));
 
        foreach($fields as $key=>$field){
-           $this->assertEquals($testListView->getId().":".$key,$field->getId());
+           $this->assertEquals($testListView->getId()."-child:".$key,$field->getId());
        }
 
-        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list:0')));
+        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list-child:0')));
         $this->assertTag($matcher,$rendered);
-        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list:1')));
+        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list-child:1')));
         $this->assertTag($matcher,$rendered);
-        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list:2')));
+        $matcher = array('tag'=>'div','descendant'=>array('tag'=>'input','attributes'=>array('name'=>'list-child:2')));
         $this->assertTag($matcher,$rendered);
-
-        $this->log->debug(rendered);
     }
 }
 

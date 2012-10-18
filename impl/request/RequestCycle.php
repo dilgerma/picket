@@ -6,7 +6,7 @@
  * Time: 16:58
  * To change this template use File | Settings | File Templates.
  */
-interface RequestCycle
+interface RequestCycle extends LifeCycle
 {
 
     const ON_INITIALIZE = 1;

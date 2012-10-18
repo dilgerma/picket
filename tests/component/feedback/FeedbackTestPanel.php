@@ -6,9 +6,9 @@
  * Time: 09:20
  * To change this template use File | Settings | File Templates.
  */
-class SimpleTestPanel extends Panel
+class FeedbackTestPanel extends Panel
 {
-   public function SimpleTestPanel(){
+   public function FeedbackTestPanel(){
        $this->Panel("testObject", new SimpleModel(""));
        $this->add(new FeedbackPanel("feedback",$this));
        $this->error("Fehler passiert");

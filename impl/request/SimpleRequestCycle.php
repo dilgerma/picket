@@ -29,42 +29,42 @@ class SimpleRequestCycle implements RequestCycle
         $this->component = $component;
     }
 
-    public final function onRender()
+    public final function onRender(MarkupParser $markupParser)
     {
         call_user_func($this->renderCallback,$this->component);
-        $this->component->onRender();
+        $this->component->onRender($markupParser);
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
-            $behavior->onRender();
+            $behavior->onRender($markupParser);
         }
     }
 
-    public final function onBeforeRender()
+    public final function onBeforeRender(MarkupParser $markupParser)
     {
 
         call_user_func($this->beforeRenderCallback, $this->component);
-        $this->component->onBeforeRender();
+        $this->component->onBeforeRender($markupParser);
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
-            $behavior->onBeforeRender();
+            $behavior->onBeforeRender($markupParser);
         }
     }
 
-    public final function onAfterRender(){
+    public final function onAfterRender(MarkupParser $markupParser){
         call_user_func($this->afterRenderCallback, $this->component);
-        $this->component->onAfterRender();
+        $this->component->onAfterRender($markupParser);
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
-            $behavior->onAfterRender();
+            $behavior->onAfterRender($markupParser);
         }
     }
 
-    public final function onMarkupTag(){
+    public final function onMarkupTag(MarkupParser $markupParser){
         call_user_func($this->markupTagCallback,$this->component);
-        $this->component->onMarkupTag();
+        $this->component->onMarkupTag($markupParser);
         $behaviors = $this->component->getBehaviors();
         foreach($behaviors as $behavior){
-            $behavior->onMarkupTag();
+            $behavior->onMarkupTag($markupParser);
         }
     }
 

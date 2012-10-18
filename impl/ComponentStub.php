@@ -181,16 +181,16 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
 
 
         $this->log->debug("rendering " . $this->getId());
-        $this->getRequestCycle()->onMarkupTag();
+        $this->getRequestCycle()->onMarkupTag($markupParser);
         $this->attachMarkup($markupParser);
         $markupParser->applyParameters($markupParser->getTagForComponent($this), $this);
-        $this->getRequestCycle()->onBeforeRender();
+        $this->getRequestCycle()->onBeforeRender($markupParser);
         if ($this->isVisible()) {
             $this->log->debug("rendering component " . $this->getId() . " to markup " . is_null($markupParser) ? "" : $markupParser->getMarkupPath());
             $this->configure();
-            $this->getRequestCycle()->onRender();
+            $this->getRequestCycle()->onRender($markupParser);
             $content = $this->getTagRenderer()->render($markupParser);
-            $this->getRequestCycle()->onAfterRender();
+            $this->getRequestCycle()->onAfterRender($markupParser);
             $this->getRequestCycle()->onDetach();
         } else {
             $markupParser->getTagForComponent($this)->remove();
@@ -344,19 +344,19 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     /*
      * Lifecycle Callbacks
      * */
-    public function onMarkupTag()
+    public function onMarkupTag(MarkupParser $markupParser)
     {
     }
 
-    public function onRender()
+    public function onRender(MarkupParser $markupParser)
     {
     }
 
-    public function onBeforeRender()
+    public function onBeforeRender(MarkupParser $markupParser)
     {
     }
 
-    public function onAfterRender()
+    public function onAfterRender(MarkupParser $markupParser)
     {
     }
 

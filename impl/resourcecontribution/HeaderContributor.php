@@ -24,11 +24,8 @@ class HeaderContributor extends BehaviorAdapter
     {
         parent::renderHead($parser);
         $node = $parser->findFirstTagByName("head");
-        if($node->length !== 0){
-            $node->append($this->resource->render());
-        } else {
-            $this->log->warn("Cannot find <head></head> node");
-        }
+        $content = $this->resource->render();
+        $node->append($content);
 
     }
 

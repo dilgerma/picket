@@ -13,7 +13,7 @@ class ValidationDisplayCSSBehavior extends BehaviorAdapter {
      */
     private $component;
 
-    public function onRender()
+    public function onRender(MarkupParser $markupParser)
     {
         if($this->component->hasErrors()){
             $this->component->appendAttribute(array("class"=>"error"));

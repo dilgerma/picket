@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../BaseTestCase.php';
-require_once __DIR__.'/SimpleTestPanel.php';
+require_once __DIR__ . '/FeedbackTestPanel.php';
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
@@ -17,15 +17,15 @@ class FeedbackPanelTest extends BaseTestCase
         $textField->getFeedbackMessages()->addMessage(new FeedbackMessage("message-1", Level::ERROR));
         $form->add($textField);
         $feedback = new TestFeedbackPanel("testObject", $form);
-        $rendered = $feedback->render(new MarkupParser(__DIR__."../../../markup/simple-markup.html"));
+        $rendered = $feedback->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
 
         $matcher = array('tag' => 'div', 'descendant' => array('tag' => 'div','content'=>'message-1'));
         $this->assertTag($matcher,$rendered);
     }
 
     public function testFeedbackWithinPanel(){
-         $testPanel = new SimpleTestPanel();
-         $rendered = $testPanel->render(new MarkupParser(__DIR__."../../../markup/simple-markup.html"));
+         $testPanel = new FeedbackTestPanel();
+         $rendered = $testPanel->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
 
     }
 }

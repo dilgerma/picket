@@ -10,7 +10,7 @@
 
     
     <root>
-        <level value="DEBUG" />
+        <level value="INFO" />
         <appender_ref ref="myConsoleAppender" />
         <!--<appender_ref ref="myFileAppender" />-->
     </root>

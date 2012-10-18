@@ -161,7 +161,7 @@ class MarkupParser
     }
 
     public function findFirstTagByName($name){
-        $pidSelector = "[name=".$name."]";
+        $pidSelector = "'".$name."'";
         return pq($pidSelector, $this->dom->getDocumentID());
     }
 }
