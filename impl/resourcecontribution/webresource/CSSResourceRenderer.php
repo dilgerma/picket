@@ -11,7 +11,7 @@ class CSSResourceRenderer implements ResourceRenderer
 
     public function render($resource)
     {
-        return "<link href=\"".$resource."\" rel=\"stylesheet\">\n";
+        return "\n<link href=\"".$resource."\" rel=\"stylesheet\">\n";
 
     }
 }

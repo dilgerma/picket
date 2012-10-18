@@ -9,7 +9,7 @@
 class CSSWebResource extends DefaultWebResource
 {
 
-    public function CSSWebResource($resource){
-        $this->DefaultWebResource($resource,new CSSResourceRenderer());
+    public function CSSWebResource($resource,$identifier){
+        $this->DefaultWebResource($resource,new CSSResourceRenderer(),$identifier);
     }
 }

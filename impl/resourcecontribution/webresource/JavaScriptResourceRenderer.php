@@ -11,7 +11,7 @@ class JavaScriptResourceRenderer implements ResourceRenderer
 
     public function render($resource)
     {
-        return "<script language='JavaScript' type='text/javascript' src='".$resource."' />\n";
+        return "\n<script language='JavaScript' type='text/javascript' src='".$resource."' />\n";
 
     }
 }

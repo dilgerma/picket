@@ -10,7 +10,7 @@ class BehaviorAdapter implements Behavior
 {
 
     public function renderHead(MarkupParser $parser){
-
+          return new HeaderContribution("","");
     }
 
     public function bind(ComponentStub $component)

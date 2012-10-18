@@ -8,5 +8,12 @@
  */
 interface Behavior extends RequestCycle, Bindable
 {
+    /**
+     * Only considered if your components are placed within a WebPage and not rendered directly.
+     *
+     * @abstract
+     * @param MarkupParser $parser
+     * @return HeaderContribution
+     */
     public function renderHead(MarkupParser $parser);
 }

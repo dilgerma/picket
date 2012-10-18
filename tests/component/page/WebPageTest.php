@@ -30,8 +30,8 @@ class WebPageTest extends BaseTestCase
     public function testRenderWebPageWithHeaderContributor(){
         $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
         $label =  new Label("test-id", new SimpleModel("Hello Unit Test"));
-        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","js",new JavaScriptResourceRenderer())));
-        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","css",new CSSResourceRenderer())));
+        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","js",new JavaScriptResourceRenderer(),"scripts")));
+        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","css",new CSSResourceRenderer(),"styles")));
         $testWebPage->add($label);
         $testWebPage->add(new Label("test-id-2", new SimpleModel("All Tags get Replaced")));
 
@@ -44,6 +44,22 @@ class WebPageTest extends BaseTestCase
 
         $cssMarkupTester = new MarkupTester($content,false);
         $cssMarkupTester->tagExists("html")->tagExists("head")->tagExists("link")->attributeEquals("rel","stylesheet")->attributeEquals("href","scripts/deeper/style.css");
+    }
+
+
+    public function testRenderWebPageWithDoubleContributions(){
+        $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
+        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper","js",new JavaScriptResourceRenderer(),"scripts")));
+        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper","js",new JavaScriptResourceRenderer(),"scripts")));
+
+
+        $markupParser = new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__));
+        $testWebPage->render($markupParser);
+        $content = $markupParser->getDocument()->htmlOuter();
+
+        $markupTester = new MarkupTester($content, false);
+        $markupTester->tagExists("html")->tagExists("head");
+        $markupTester->assertTagCount("script",1);
     }
 
 }

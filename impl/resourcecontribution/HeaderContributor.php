@@ -20,14 +20,13 @@ class HeaderContributor extends BehaviorAdapter
         $this->log = Logger::getLogger("HeaderContributor");
     }
 
+
     public function renderHead(MarkupParser $parser)
     {
         parent::renderHead($parser);
-        $node = $parser->findFirstTagByName("head");
         $content = $this->resource->render();
-        $node->append($content);
+        return new HeaderContribution($content,$this->resource->getIdentifier());
 
     }
-
 
 }

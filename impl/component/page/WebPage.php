@@ -25,7 +25,8 @@ class WebPage extends WebMarkupContainer
     }
 
     /**
-     * renders all header contributions
+     * renders all header contributions. ensures that each contribution is rendered once, as long as the
+     * identifier is unique.
      * @param MarkupParser $markupParser
      */
     public function onBeforeRender(MarkupParser $markupParser)
@@ -36,8 +37,14 @@ class WebPage extends WebMarkupContainer
         $this->visit($behaviorCollector);
 
         $collected = $behaviorCollector->getCollectedBehaviors();
+        $contributions = array();
         foreach($collected as $behavior){
-            $behavior->renderHead($markupParser);
+            $headerContribution = $behavior->renderHead($markupParser);
+            $contributions[$headerContribution->getIdentifier()]=$headerContribution->getResource();
+        }
+        foreach($contributions as $header){
+            $node = $markupParser->findFirstTagByName("head");
+            $node->append($header);
         }
     }
 

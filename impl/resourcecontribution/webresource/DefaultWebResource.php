@@ -18,11 +18,22 @@ abstract class DefaultWebResource implements WebResource
 
     private $renderer;
 
+    /**
+     * identifier that is used to distinguish already rendered resources,
+     * typically this is just the filename, maybe with the path...
+     * @var
+     */
+    private $identifier;
+
     protected  $log;
 
-    public function DefaultWebResource($path,ResourceRenderer $renderer){
+    public function DefaultWebResource($path,ResourceRenderer $renderer,$identifier){
         $this->log = Logger::getLogger("DefaultWebResource");
+        if(is_null($identifier) || $identifier === ""){
+            throw new Exception("you must not use header resources without identifier, use the file name");
+        }
         $this->renderer = $renderer;
+        $this->identifier = $identifier;
         if(is_array($path)){
             $this->path = $path;
         } else {
@@ -31,6 +42,9 @@ abstract class DefaultWebResource implements WebResource
         }
     }
 
+    public function getIdentifier(){
+        return $this->identifier;
+    }
 
     public function render()
     {

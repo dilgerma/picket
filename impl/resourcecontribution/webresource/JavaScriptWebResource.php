@@ -9,7 +9,7 @@
 class JavaScriptWebResource extends DefaultWebResource
 {
 
-    public function JavaScriptWebResource($resource){
-        $this->DefaultWebResource($resource,new JavaScriptResourceRenderer());
+    public function JavaScriptWebResource($resource,$identifier){
+        $this->DefaultWebResource($resource,new JavaScriptResourceRenderer(),$identifier);
     }
 }

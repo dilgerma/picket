@@ -13,7 +13,7 @@ class PackageWebResourceTest extends BaseTestCase
     {
         $resource = new PackageWebResource("test", "js", new JavaScriptResourceRenderer());
         $result = $resource->render();
-        $expected = "<script language='JavaScript' type='text/javascript' src='test/js/another/script-2.js' />\n<script language='JavaScript' type='text/javascript' src='test/js/script-1.js' />\n";
+        $expected = "\n<script language='JavaScript' type='text/javascript' src='test/js/another/script-2.js' />\n<script language='JavaScript' type='text/javascript' src='test/js/script-1.js' />\n";
         $this->assertEquals($expected,$result);
     }
 
