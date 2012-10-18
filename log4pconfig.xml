@@ -3,10 +3,10 @@
  
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
 
-    <appender name="myFileAppender" class="LoggerAppenderFile">
-        <layout class="LoggerLayoutTTCC" />
-        <param name="file" value="logs/myLog.out" />
-    </appender>
+    <!--<appender name="myFileAppender" class="LoggerAppenderFile">-->
+        <!--<layout class="LoggerLayoutTTCC" />-->
+        <!--<param name="file" value="/logs/myLog.out" />-->
+    <!--</appender>-->
 
     
     <root>

@@ -65,7 +65,6 @@ class TagRenderer implements ComponentRenderer
         $content = $this->renderOpenTag();
         $content.=$this->renderBody($markupParser);
         $content.=$this->renderCloseTag();
-        $this->log->debug("rendered tag for ".$this->component->getId()." ".$content);
         $this->streamWriter->renderToStream($markupParser,$content);
 
         return $markupParser->getTagForComponent($this->component)->htmlOuter();

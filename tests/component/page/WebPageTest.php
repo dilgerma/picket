@@ -2,6 +2,7 @@
 include_once __DIR__ . '/../../BaseTestCase.php';
 require_once __DIR__ . '/../../container/SimpleTestPanel.php';
 require_once __DIR__ . '/../../util/MarkupTester.php';
+require_once __DIR__."/PageTestPanel.php";
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
@@ -60,6 +61,15 @@ class WebPageTest extends BaseTestCase
         $markupTester = new MarkupTester($content, false);
         $markupTester->tagExists("html")->tagExists("head");
         $markupTester->assertTagCount("script",1);
+    }
+
+    public function testRenderPageWithPanel(){
+        $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
+        $testWebPage->add(new PageTestPanel("test-id",new SimpleModel("")));
+
+        $markupParser = new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__));
+        $testWebPage->render($markupParser);
+
     }
 
 }

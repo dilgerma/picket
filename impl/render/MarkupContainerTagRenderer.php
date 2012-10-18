@@ -12,17 +12,6 @@ class MarkupContainerTagRenderer extends TagRenderer
         $this->TagRenderer($component);
     }
 
-    public function renderOpenTag()
-    {
-        return "";
-    }
-
-    public function renderCloseTag()
-    {
-        return "";
-    }
-
-
     public function renderBody(MarkupParser $markupParser)
     {
         $this->log->debug("rendering body ".$this->component->getId());
