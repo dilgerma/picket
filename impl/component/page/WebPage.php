@@ -19,9 +19,14 @@
 */
 class WebPage extends WebMarkupContainer
 {
+    /**
+     * @var MarkupResolver
+     */
+    private $markupResolver;
 
     public function WebPage($markupId, $model){
         $this->WebMarkupContainer($markupId,$model);
+        $this->markupResolver = new ParentMarkupResolver();
     }
 
     /**
@@ -55,7 +60,7 @@ class WebPage extends WebMarkupContainer
    * */
     public function renderDirectly(){
         $this->getTagRenderer()->setStreamWriter(new PageRenderStreamWriter($this));
-        $this->render(new MarkupParser(MarkupParser::getCurrentMarkupName()));
+        $this->render(new MarkupParser($this->markupResolver->resolveMarkup($this)));
     }
 
 }

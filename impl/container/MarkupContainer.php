@@ -11,16 +11,21 @@ class MarkupContainer extends ComponentStub
 
     private $markupParser;
 
+    /**
+     * @var MarkupResolver
+     */
+    private $markupResolver;
+
     public function MarkupContainer($id,IModel $model) {
+        //dont move this line after the constructor, as the resolver is already used
+        $this->markupResolver = new ParentMarkupResolver();
         $this->ComponentStub($id,$model);
         $this->markupParser = new MarkupParser($this->getMarkupFile());
         $this->setTagRenderer(new MarkupContainerTagRenderer($this));
     }
 
     public function getMarkupFile(){
-        $filename = $this->getPackage();
-        $markup = MarkupParser::getMarkupNameFromScript($filename);
-        return $markup;
+        return $this->markupResolver->resolveMarkup($this);
     }
 
     public function getMarkupParser(){
@@ -30,12 +35,8 @@ class MarkupContainer extends ComponentStub
     protected function attachMarkup(MarkupParser $markupParser)
     {
         $node = $markupParser->getTagForComponent($this);
-        $this->log->info("replacing body of MarkupContainer ".$this->getId()."");
         $node->append($this->getMarkupParser()->getDocument()->html()) ;
     }
-
-
-
 
     /**
      * Gets the Tagname
