@@ -6,12 +6,12 @@
  * Time: 15:52
  * To change this template use File | Settings | File Templates.
  */
-class CSSResourceRenderer implements ResourceRenderer
+class JavaScriptResourceRenderer implements ResourceRenderer
 {
 
     public function render($resource)
     {
-        return "<link href=\"".$resource."\" rel=\"stylesheet\">.\n";
+        return "<script language='JavaScript' type='text/javascript' src='".$resource."' />\n";
 
     }
 }

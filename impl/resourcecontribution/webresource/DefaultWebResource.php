@@ -32,7 +32,7 @@ abstract class DefaultWebResource implements WebResource
     }
 
 
-    public function render($component)
+    public function render()
     {
         $resources = "";
         foreach($this->path as $resource){

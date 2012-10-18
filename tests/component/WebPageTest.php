@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__ . '/../BaseTestCase.php';
 require_once __DIR__.'/../container/SimpleTestPanel.php';
+require_once __DIR__.'/../util/MarkupTester.php';
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
@@ -11,34 +12,19 @@ require_once __DIR__.'/../container/SimpleTestPanel.php';
 class WebPageTest extends BaseTestCase
 {
       public function testRenderWebPage(){
-          $testWebPage = new TestWebPage();
+          $testWebPage = new TestWebPage("webpage",new SimpleModel(""));
+          $testWebPage->add(new Label("test-id", new SimpleModel("Hello Unit Test")));
+          $testWebPage->add(new Label("test-id-2", new SimpleModel("All Tags get Replaced")));
 
-          $label  =new Label("test-id",new SimpleModel("rendered-label"));
-          $testWebPage->add($label);
-          $content = $testWebPage->getTagRenderer()->render($testWebPage->getMarkupParser());
+          $markupParser = new MarkupParser("TestWebPage.html");
+          $testWebPage->render($markupParser);
 
-          $matcher = array('tag' => 'div', 'content'=>'rendered-label');
-          $this->assertTag($matcher,$content);
-
-          //assert body is rendered
-          $matcher = array('tag'=>'body');
-          $this->assertTag($matcher,$content);
-
-          //assert head is rendered
-          $matcher = array('tag'=>'head');
-          $this->assertTag($matcher,$content);
+          $content =  $markupParser->getDocument()->htmlOuter();
+          $markupTester = new MarkupTester($content,false);
+          $markupTester->tagExists("html")->tagExists("body")->tagExists("div")->tagExists("div");
+          $markupTester->attributeEquals("pid","test-id")->nodeValue("Hello Unit Test");
       }
 
-    public function testRenderWebPageWithContainer(){
-        $testWebPage = new TestWebPage();
-
-        $label  = new SimpleTestPanel();
-        $testWebPage->add($label);
-        $content = $testWebPage->getTagRenderer()->render($testWebPage->getMarkupParser());
-
-        $matcher = array('tag'=>'div','id'=>'test-id','descendant'=>array('tag'=>'input','attributes'=>array('type'=>'text','value'=>'blubb')));
-        $this->assertTag($matcher,$content);
-    }
 }
 
 class TestWebPage extends WebPage {

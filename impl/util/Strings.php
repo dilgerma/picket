@@ -8,9 +8,12 @@
  */
 class Strings
 {
-    static function endsWith($whole, $end)
+    static function endsWith($string, $ending)
     {
-        return (strpos($whole, $end, strlen($whole) - strlen($end)) !== false);
+        $len = strlen($ending);
+        $string_end = substr($string, strlen($string) - $len);
+
+        return $string_end == $ending;
     }
 
 }

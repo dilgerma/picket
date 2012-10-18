@@ -26,7 +26,6 @@ class FeedbackPanelTest extends BaseTestCase
     public function testFeedbackWithinPanel(){
          $testPanel = new SimpleTestPanel();
          $rendered = $testPanel->render(new MarkupParser(__DIR__."../../../markup/simple-markup.html"));
-        echo "*************Begin Rendering....\n".$rendered."\nEnd Rendering";
 
     }
 }

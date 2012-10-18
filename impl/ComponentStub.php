@@ -21,6 +21,11 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
      */
     private $requestCycle;
     private $behaviors = array();
+    /**
+     * Javascripts, CSS and all the stuff
+     * @var array
+     */
+    private $webResources = array();
     private $feedbackMessages;
     protected $log;
     //label that can be used to display text
@@ -235,6 +240,14 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     public function getBehaviors()
     {
         return $this->behaviors;
+    }
+
+    public function addWebResource(WebResource $resource){
+        array_push($this->webResources,$resource);
+    }
+
+    public function getWebResources(){
+        return $this->webResources;
     }
 
     /**

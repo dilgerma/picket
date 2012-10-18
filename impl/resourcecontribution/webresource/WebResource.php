@@ -8,5 +8,5 @@
  */
 interface WebResource
 {
-    public function render($component);
+    public function render();
 }

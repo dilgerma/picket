@@ -8,4 +8,5 @@
  */
 interface Behavior extends RequestCycle, Bindable
 {
+    public function renderHead(MarkupParser $parser);
 }

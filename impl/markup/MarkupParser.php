@@ -57,8 +57,6 @@ class MarkupParser
     public function processContainerComponentChilds(ComponentStub $component, phpQueryObject $startNode = null)
     {
 
-
-
         foreach ($component->fields() as $field) {
             $this->processContainerComponentChilds($field);
         }
@@ -160,6 +158,10 @@ class MarkupParser
         $tagname = $this->getTagForComponent($component)->get(0)->nodeName;
         $this->log->debug("Trying to guess TagName from Markup - ".$tagname." for component ".$component->getId());
         return $tagname;
+    }
 
+    public function findFirstTagByName($name){
+        $pidSelector = "[name=".$name."]";
+        return pq($pidSelector, $this->dom->getDocumentID());
     }
 }

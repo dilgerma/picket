@@ -9,6 +9,10 @@
 class BehaviorAdapter implements Behavior
 {
 
+    public function renderHead(MarkupParser $parser){
+
+    }
+
     public function bind(ComponentStub $component)
     {
         // TODO: Implement bind() method.
