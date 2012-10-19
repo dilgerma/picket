@@ -69,7 +69,6 @@ class WebPageTest extends BaseTestCase
 
         $markupParser = new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__));
         $testWebPage->render($markupParser);
-
     }
 
 }

@@ -14,11 +14,11 @@ class PackageWebResource extends DefaultWebResource
 
     public function PackageWebResource($folder, $fileEndingFilter, ResourceRenderer $renderer,$identifier)
     {
-        $this->DefaultWebResource($folder,$renderer,$identifier);
         if (file_exists($folder)) {
             $files = Files::listFilesInFolder($folder,$fileEndingFilter);
             $this->DefaultWebResource($files, $renderer,$identifier);
         } else {
+            $this->DefaultWebResource($folder,$renderer,$identifier);
             $this->log->error("cannot render package resource, it does not exist " . $folder);
         }
     }

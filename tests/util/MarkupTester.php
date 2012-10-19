@@ -38,7 +38,7 @@ class MarkupTester extends BaseTestCase
 
     public function attributeEquals($attributeName, $value){
         $attribute = $this->node->get(0)->attributes;
-        $this->assertEquals($attribute->getNamedItem($attributeName)->nodeValue,$value);
+        $this->assertEquals($value,$attribute->getNamedItem($attributeName)->nodeValue);
         return $this;
     }
 

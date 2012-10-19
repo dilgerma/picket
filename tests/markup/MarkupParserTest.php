@@ -95,49 +95,6 @@ class MarkupParserTest extends BaseTestCase
 
     }
 
-    public function testHierarchy()
-    {
-        //  <form pid="hierarchy-test-form"></form>
-        //<input type="text" pid="hierarchy-test-input"/>
-
-        $form = new Form("hierarchy-test-form", new SimpleModel(""));
-        $textField = new TextField("hierarchy-test-input", new SimpleModel(""));
-        $form->add($textField);
-        $markupParser = new MarkupParser($this->basePath . "/test.html");
-        try {
-            $markupParser->processContainerComponentChilds($form);
-        } catch (Exception $e) {
-            //expected
-            echo $e->getMessage() . "\n";
-            return;
-        }
-        $this->fail("Exception expected, as hierarchy does not match");
-
-    }
-
-    public function testReplaceTags(){
-        $form = new Form("applied-form", new SimpleModel(""));
-        $textField = new TextField("applied-text", new SimpleModel(""));
-        $form->add($textField);
-        $dropDown = DropDown::createWithOptions("applied-dropdown",new SimpleModel(""),array("1","2","3"));
-        $form->add($dropDown);
-
-
-        $markupParser = new MarkupParser($this->basePath . "/replace-test.html");
-        $markupParser->processContainerComponentChilds($form);
-        $markupParser->replaceNodes($form);
-
-        echo $markupParser->getDocument()->htmlOuter();
-    }
-
-    public function testFindFirstChildWithParentId(){
-        $markupParser = new MarkupParser($this->basePath . "/child-finder.html");
-        $form = new Form("list",new SimpleModel(""));
-
-        $child = $markupParser->findFirstChildComponentTagWithParentId($form);
-        $this->assertEquals("<div pid=\"list\" class=\"child\"></div>",$child->htmlOuter());
-
-    }
 
     public function testGetCurrentScriptName(){
         $currentScript = MarkupParser::getCurrentScriptMarkup();
