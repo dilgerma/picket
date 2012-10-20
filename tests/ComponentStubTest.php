@@ -1,10 +1,8 @@
 
 <?php include_once(__DIR__.'/BaseTestCase.php');
 require_once __DIR__.'/container/SimpleTestPanel.php';
-?>
+require_once __DIR__.'/util/MarkupTester.php';
 
-?>
-<?php
 /**
  * Created by IntelliJ IDEA.
  * User: dilgerma
@@ -39,8 +37,15 @@ class ComponentStubTest extends BaseTestCase
         $component->render($markupParser);
 
         $this->assertEquals(trim($markupParser->getDocument()->html()),"");
+    }
 
-
+    public function testNoModelForcesModelOfParent(){
+        $container = new WebMarkupContainer("parent",new SimpleModel("Im a parent"));
+        $label = new Label("child");
+        $container->add($label);
+        $rendered = $container->render(new SimpleTestMarkupParser("ParentChildTest.html"));
+        $tester = new MarkupTester($rendered,false);
+        $tester->tagExists("div")->tagExists("div")->attributeEquals("pid","child")->nodeValue("Im a parent");
     }
 }
 

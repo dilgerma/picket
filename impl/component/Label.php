@@ -9,7 +9,7 @@
 class Label extends ComponentStub
 {
 
-    public function Label($id,$model){
+    public function Label($id,$model=null){
         $this->ComponentStub($id,$model);
         $this->setTagRenderer(new ModelValueTagBodyRenderer($this));
     }

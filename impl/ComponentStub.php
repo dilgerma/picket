@@ -41,12 +41,14 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
      * Component needs either a MarkupParser parsed directly or it takes the one
      * given by its parent.
      *
+     * If model is not supplied, the component tries to load the model of its parent.
+     *
      * @param $id
      * @param $model
      * @param $label the label to display (can be used in validators etc)
      * @param null $markupParser
      */
-    public function ComponentStub($id, $model, $label="")
+    public function ComponentStub($id, $model=null, $label="")
     {
         $this->id = $id;
         $this->model = $model;
@@ -346,8 +348,11 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
         $this->render(new MarkupParser($_SERVER['SCRIPT_FILENAME']));
     }
 
-    public function bind(ComponentStub $component){
-        $this->parent = $component;
+    public function bind(ComponentStub $parent){
+        $this->parent = $parent;
+        if(is_null($this->model)){
+            $this->model = $parent->getModel();
+        }
     }
 
     public function getParent(){
