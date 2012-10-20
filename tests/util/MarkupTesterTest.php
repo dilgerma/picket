@@ -12,7 +12,7 @@ class MarkupTesterTest extends BaseTestCase
 {
     public function testFile(){
 
-        $markupTester = new MarkupTester("TestMarkup.html");
+        $markupTester = new MarkupTester(__DIR__."/TestMarkup.html");
         $markupTester->tagExists("html")->tagExists("body")->tagExists("div")->
             attributeEquals("pid","webpage")->tagExists("div")->
             attributeEquals("pid","test-id")->attributeEquals("id","test-id")

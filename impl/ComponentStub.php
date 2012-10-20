@@ -7,7 +7,7 @@
  * Time: 12:35
  * To change this template use File | Settings | File Templates.
  */
-abstract class ComponentStub implements Component, Tag, LifeCycle
+abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
 {
 
     private $id;
@@ -30,6 +30,11 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
     protected $log;
     //label that can be used to display text
     private $label;
+
+    /**
+     * @var ComponentStub
+     */
+    private $parent;
 
 
     /**
@@ -341,6 +346,14 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
         $this->render(new MarkupParser($_SERVER['SCRIPT_FILENAME']));
     }
 
+    public function bind(ComponentStub $component){
+        $this->parent = $component;
+    }
+
+    public function getParent(){
+        return $this->parent;
+    }
+
     /*
      * Lifecycle Callbacks
      * */
@@ -366,6 +379,7 @@ abstract class ComponentStub implements Component, Tag, LifeCycle
 
     public function onDetach()
     {
+        unset($this->parent);
     }
 
 
