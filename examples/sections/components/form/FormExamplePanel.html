@@ -1,0 +1,30 @@
+<div pid="componentExample">
+    <div pid="result"/>
+    <div pid="feedback">
+        <div pid="feedback-child" style="color:red"/>
+    </div>
+    <form pid="form">
+        <input type="hidden" name="exampleComponentName" value="Form"/>
+        <p>
+            <label for="name">Name</label>
+            <input pid="name" id="name"/>(Must not be hans, else validation error occurs)
+        </p>
+
+        <p>
+            <label for="email">E-Mail</label>
+            <input pid="email" id="email"/>
+        </p>
+
+        <p>
+            <label for="radio">Radio</label>
+
+        <div pid="group" id="radio">
+
+            <input pid="radioDinner"/> Abendessen <br/>
+            <input pid="radioLunch"/> Mittagessen <br/>
+            <input pid="radioBreakfast"/> Frühstück    <br/>
+        </div>
+        </p>
+        <input type="submit"/>
+    </form>
+</div>

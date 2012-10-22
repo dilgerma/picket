@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * //desc start
+ * Renders a Html Form.
+ * All Form Components must be assigned to a Form.
+ * You can provide your own call back by calling setSubmitCallback
+ * @author Martin Dilger
+ * //desc end
+ */
 class Form extends FormComponentStub
 {
 
