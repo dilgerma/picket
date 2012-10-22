@@ -10,7 +10,6 @@ class ExamplesSection extends Panel
 {
     public function __construct($id, IModel $model, IModel $headerModel){
         parent::Panel($id,$model);
-        echo $model->getValue();
         $this->add(new Label("header",$headerModel));
         $this->add(new ComponentListView("example-list", new ExamplePanelListModel($model->getValue())));
     }
@@ -23,7 +22,10 @@ class ComponentListView extends ListView {
     public function populateItem($markupId, IModel $listItem, $markupIdSuffix)
     {
         $container = new WebMarkupContainer($markupId,$listItem);
-        $link = new Link(ListView::concatenateId("link",$markupIdSuffix),new SimpleModel("www.google.de"),new SimpleModel(str_replace("ExamplePanel.php","",basename($listItem->getValue()))));
+        $componentNameModel = new SimpleModel(str_replace("ExamplePanel.php","",basename($listItem->getValue())));
+        //builds a link that redirects to the examples page
+        $link = new Link(ListView::concatenateId("link",$markupIdSuffix),new SimpleModel("/framework/examples/pages/ExamplesPage.php?".ExamplesPage::example_component_param."=".$componentNameModel->getValue())
+            ,$componentNameModel);
         $container->add($link);
         $this->add($container);
     }

@@ -2,6 +2,7 @@
 /**
  * This is an example how WebPages are used:
  *
+ * //desc start
  * class testpage extends WebPage
 *  {
 *    public function testpage($id,$model){
@@ -16,6 +17,9 @@
  *
  * At the bottom of a page class, always instantiate the page and call render, thus you can call the
  * page directly in the browser.
+ *
+ * @author Martin Dilger
+ * //desc end
 */
 class WebPage extends WebMarkupContainer
 {

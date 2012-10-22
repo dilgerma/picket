@@ -9,20 +9,30 @@
 class RequestParameters
 {
 
+    private $parameters = array();
+
+    public function __construct(){
+        $this->parameters = array_merge($_POST,$this->parameters);
+        $this->parameters = array_merge($_GET,$this->parameters);
+    }
 
     /**
      * returns all parameters (Get+Post) as a key value map
      */
     public function getAllParameters(){
-        $parameters = array();
-        $parameters = array_merge($_POST,$parameters);
-        $parameters = array_merge($_GET,$parameters);
-        return $parameters;
+       return $this->parameters;
     }
 
     public function getSubmittingComponent(){
+        return $this->getNamedParameter(FormCallBackUri::SUBMITTING_COMPONENT);
+    }
+
+    public function getNamedParameter($name){
         $parameters = $this->getAllParameters();
-        return $parameters[FormCallBackUri::SUBMITTING_COMPONENT];
+        if(array_key_exists($name,$parameters)){
+            return $parameters[$name];
+        }
+        return "";
     }
 
     public function isSubmit(){
@@ -43,7 +53,7 @@ class RequestParameters
     public function getSubmittedValueFor($component){
         $parameters = $this->getAllParameters();
         if(array_key_exists($component->getId(),$parameters)) {
-            return $parameters[$component->getId()];
+            return $this->getNamedParameter($component->getId());
         }
         return null;
     }
