@@ -42,6 +42,19 @@ class RadioGroupTest extends BaseTestCase
         $rendered = $container->render(new SimpleTestMarkupParser("RadioGroupMarkup.html"));
         $tester = new MarkupTester($rendered,false);
         $tester->tagExists("div")->tagExists("input")->next()->attributeEquals("checked","checked");
+
+    }
+
+    /*
+     * group gets c in model, so no radio button is selected
+     * */
+    public function testSubmitWrongValue(){
+        $container = new RadioGroup("group", new SimpleModel("c"));
+        $container->add(new RadioButton("button1", new SimpleModel("b")));
+        $container->add(new RadioButton("button2", new SimpleModel("a")));
+        $rendered = $container->render(new SimpleTestMarkupParser("RadioGroupMarkup.html"));
+        $tester = new MarkupTester($rendered,false);
+        $tester->tagExists("div")->tagExists("input")->next()->attributeMissing("checked");
     }
 
 }

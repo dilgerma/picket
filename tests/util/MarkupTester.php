@@ -47,6 +47,11 @@ class MarkupTester extends BaseTestCase
         return $this;
     }
 
+    public function attributeMissing($attributeName){
+        $attribute = $this->node->get(0)->attributes;
+        $this->assertNull($attribute->getNamedItem($attributeName));
+    }
+
     public function nodeValue($value){
         $nodeValue = $this->node->get(0)->nodeValue;
         $this->assertEquals($nodeValue,$value);
