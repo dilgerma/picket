@@ -1,10 +1,19 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dilgerma
- * Date: 18.07.12
- * Time: 11:20
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ *
+ * A ListView is a simple Repeater component that repeats a html-node as often as values are provided in the given listmodel.
+ * The ListView expects a certain markup-layout, for example:
+ *
+ * <div pid="list">
+ *  <div pid="list-child"/>
+ * </div>
+ *
+ * the div with the pid "list" is the listview, and for every element in the given listmodel,
+ * the div with pid "list-child" gets copied n times.
+ *
+ * @author Martin Dilger
+ * //desc end
  */
 abstract class ListView extends ComponentStub
 {
@@ -95,7 +104,6 @@ abstract class ListView extends ComponentStub
     public function appendChildNodes(MarkupParser $markupParser)
     {
         $node = $markupParser->getTagForComponent($this);
-
 
         if ($node->children()->length != 1) {
             $this->throwInvalidMarkupException($markupParser);

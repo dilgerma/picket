@@ -1,10 +1,15 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dilgerma
- * Date: 04.08.12
- * Time: 15:28
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ * A WebMarkupContainer can be used to group components inline.
+ * A WebMarkupContainer does not supply its own markup, but expects a component with the given component-id
+ * to be present.
+ *
+ * A good example for the usage of a webmarkupcontainer would be to make a whole section invisible, if a certain condition
+ * is not fulfilled.
+ *
+ * @author Martin Dilger
+ * //desc end
  */
 class WebMarkupContainer extends ComponentStub
 {

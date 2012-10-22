@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dilgerma
- * Date: 20.07.12
- * Time: 11:05
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ * A Label is the simplest component that you can think of.
+ * It just takes the model that you supply and displays the contents.
+ * @author Martin Dilger
+ * //desc end
  */
 class Label extends ComponentStub
 {
@@ -13,8 +13,6 @@ class Label extends ComponentStub
         $this->ComponentStub($id,$model);
         $this->setTagRenderer(new ModelValueTagBodyRenderer($this));
     }
-
-
 
     /**
      * Gets the Tagname

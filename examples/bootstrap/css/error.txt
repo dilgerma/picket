@@ -1,0 +1,4 @@
+A less error occured trying to build your bundle. Please paste the error below in an issue for us at http://github.com/twitter/bootsrap! thanks!
+
+
+{"type":"Name","message":"variable @darkGray is undefined","filename":"bootstrap.css","index":6147,"line":210,"column":13,"extract":["@navbarBackgroundHighlight: #6aad2e;","@navbarText: @darkGray;","@navbarLinkColor: @black;"]}
