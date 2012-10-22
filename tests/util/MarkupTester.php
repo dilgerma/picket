@@ -31,6 +31,11 @@ class MarkupTester extends BaseTestCase
         return $this;
     }
 
+    public function next(){
+        $this->node = $this->node->next();
+        return $this;
+    }
+
     public function assertTagCount($tag,$num){
         $this->assertEquals($num,pq($tag,$this->node)->length);
     }

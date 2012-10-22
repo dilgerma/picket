@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__ . '/BaseTestCase.php');
 require_once(__DIR__ . '/SimpleTestMarkupParser.php');
+require_once __DIR__.'/util/MarkupTester.php';
 /**
  * Created by IntelliJ IDEA.
  * User: martindilger
@@ -33,5 +34,14 @@ class RadioGroupTest extends BaseTestCase
         echo $rendered;
     }
 
-    public function testSubmit(){}
+    public function testSubmit(){
+        $container = new RadioGroup("group", new SimpleModel("a"));
+        $container->add(new RadioButton("button1", new SimpleModel("b")));
+        $container->add(new RadioButton("button2", new SimpleModel("a")));
+
+        $rendered = $container->render(new SimpleTestMarkupParser("RadioGroupMarkup.html"));
+        $tester = new MarkupTester($rendered,false);
+        $tester->tagExists("div")->tagExists("input")->next()->attributeEquals("checked","checked");
+    }
+
 }
