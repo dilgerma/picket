@@ -6,7 +6,7 @@
  * Time: 18:30
  * To change this template use File | Settings | File Templates.
  */
-class RequiredValidator implements Validator
+class RequiredValidator extends  AbstractValidator
 {
 
     const defautMsg = "Dies ist ein Pflichtfeld";

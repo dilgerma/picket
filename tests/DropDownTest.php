@@ -1,8 +1,5 @@
 <?php include_once(__DIR__.'/BaseTestCase.php');
 require_once(__DIR__.'/SimpleTestMarkupParser.php');
-?>
-
-<?php
 
 
 /**
