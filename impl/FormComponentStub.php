@@ -6,7 +6,7 @@
  * Time: 11:11
  * To change this template use File | Settings | File Templates.
  */
-abstract class FormComponentStub extends ComponentStub implements FormComponent
+abstract class FormComponentStub extends ComponentStub implements FormLifeCycle
 {
 
     private $validators;
@@ -14,12 +14,16 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent
 
     public function FormComponentStub($id, $model, $label=""){
         $this->ComponentStub($id,$model,$label);
+        $this->validators = array();
+        $this->submitCallback = function($value){};
+        $this->initFormComponent();
+    }
+
+    protected function initFormComponent(){
         $this->addAttributes(array("name"=>$this->getId()));
         if($this->getType() != null){
             $this->addAttributes(array("type"=>$this->getType()));
         }
-        $this->validators = array();
-        $this->submitCallback = function($value){};
     }
 
     public function getValidators(){

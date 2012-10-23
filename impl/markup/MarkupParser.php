@@ -39,8 +39,14 @@ class MarkupParser
             $componentId = $component->getId();
             throw new Exception("MarkupElement for " . $componentId . " not found,
             maybe Parameter " . MarkupConstants::ID_ATTR . "=" . $componentId . " is missing or wrong Hierarchy?.\n
-                       Current Document is:\n
-            " . "\n\n" . $this->getDocument()->getDOMDocument()->saveHTML() . "\nLoaded from " . $this->markupPath . "\n");
+            \nLoaded from " . $this->markupPath . "\nCurrent Document is:\n
+            \n\n" . htmlspecialchars($this->getDocument()->html()));
+        }
+
+        if($element->length > 1){
+            $componentId = $component->getId();
+            throw new Exception("There is more than one Element on the page with  ".MarkupConstants::ID_ATTR.
+                " ".$componentId.". \n\nCurrent Document is\n\n".htmlspecialchars($this->getDocument()->html()));
         }
 
         return $element;

@@ -8,26 +8,17 @@ class RadioGroup extends FormComponentStub
 {
 
     public function RadioGroup($id,IModel $model){
-        $this->FormComponentStub($id,$model);
+        $this->ComponentStub($id,$model);
         $this->setTagRenderer(new ContainerComponentRenderer($this));
     }
 
-    public function onBeforeRender(MarkupParser $markupParser)
+    public function onUpdateModel($value)
     {
         foreach($this->fields() as $field){
-            if($this->getModel()->getValue() === $field->getModel()->getValue()){
+            if($value === $field->getModel()->getValue()){
                 $field->addAttributes(array("checked"=>"true"));
             }
         }
-        parent::onBeforeRender($markupParser);
     }
-
-
-    public function getType()
-    {
-       return null;
-    }
-
-
 
 }

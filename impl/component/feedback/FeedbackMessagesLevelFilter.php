@@ -11,12 +11,15 @@ class FeedbackMessagesLevelFilter implements MessagesFilter
 
      private $level;
 
-    public function FeedbackMessagesLevelFilter($level){
+    public function FeedbackMessagesLevelFilter($level = null){
         $this->level = $level;
     }
 
     public function accepts(FeedbackMessage $message)
     {
+        if(is_null($this->level)){
+            return true;
+        }
         return $message->is($this->level);
     }
 }

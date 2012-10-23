@@ -12,7 +12,6 @@ class ContainerComponentRenderer extends TagRenderer
     {
         $this->log->debug("rendering body ".$this->component->getId());
         foreach($this->component->fields() as $field){
-            $this->log->debug("Container Component renderer renders component ".$this->component->getId());
             $field->render($markupParser);
         }
         return $markupParser->getTagForComponent($this->component)->html();

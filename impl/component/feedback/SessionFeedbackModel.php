@@ -12,7 +12,7 @@ class SessionFeedbackModel implements IModel,MessagesModel
     public function getValue()
     {
         $session = Session::get();
-        return $session->getFeedbackMessages()->getMessages(new FeedbackMessagesLevelFilter(Level::INFO));
+        return $session->getFeedbackMessages()->getMessages(new FeedbackMessagesLevelFilter());
     }
 
     public function setValue($value)
