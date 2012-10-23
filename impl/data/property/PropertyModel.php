@@ -6,7 +6,7 @@
  * Time: 22:53
  * To change this template use File | Settings | File Templates.
  */
-class PropertyModel implements IModel
+class PropertyModel extends ChainedModel
 {
 
     private $expression;
@@ -28,14 +28,6 @@ class PropertyModel implements IModel
     public function setValue($value)
     {
         $this->propertyResolver->setProperty($this->unchainModel($this->object),$this->expression,$value);
-    }
-
-    private function unchainModel($object){
-        if($object instanceof IModel){
-            return $object->getValue();
-        } else {
-            return $object;
-        }
     }
 
     function __toString()

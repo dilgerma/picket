@@ -60,7 +60,7 @@ class WebPageTest extends BaseTestCase
 
         $markupTester = new MarkupTester($content, false);
         $markupTester->tagExists("html")->tagExists("head");
-        $markupTester->assertTagCount("script",1);
+        $markupTester->assertTagCount("script",5);
     }
 
     public function testRenderPageWithPanel(){

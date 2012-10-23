@@ -39,13 +39,14 @@ class ComponentStubTest extends BaseTestCase
         $this->assertEquals(trim($markupParser->getDocument()->html()),"");
     }
 
-    public function testNoModelForcesModelOfParent(){
-        $container = new WebMarkupContainer("parent",new SimpleModel("Im a parent"));
-        $label = new Label("child");
+    public function testCompoundPropertyModelOnParentCreatesPropertyModel() {
+        $testValue = new SimpleModel(new TestValue(new TestValue("chained compound property value")));
+        $container = new WebMarkupContainer("parentCompound",new SimpleModel($testValue));
+        $label = new Label("value.value");
         $container->add($label);
         $rendered = $container->render(new SimpleTestMarkupParser("ParentChildTest.html"));
         $tester = new MarkupTester($rendered,false);
-        $tester->tagExists("div")->tagExists("div")->attributeEquals("pid","child")->nodeValue("Im a parent");
+        $tester->tagExists("div")->tagExists("div")->attributeEquals("pid","value.value")->nodeValue("chained compound property value");
     }
 }
 
@@ -58,4 +59,27 @@ class ComponentStubTest extends BaseTestCase
     {
         "test";
     }
+}
+
+class TestValue{
+    private $value;
+
+    public function __construct($value){
+        $this->value = $value;
+    }
+
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function __toString(){
+        return $this->value;
+    }
+
 }

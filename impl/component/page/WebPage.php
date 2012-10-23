@@ -31,6 +31,7 @@ class WebPage extends WebMarkupContainer
     public function WebPage($markupId, $model)
     {
         $this->WebMarkupContainer($markupId, $model);
+        $this->addBehavior(new HeaderContributor(new JavaScriptPackageWebResource($this->getPackage()."/res","wicket-res")));
         $this->markupResolver = new ParentMarkupResolver();
     }
 
@@ -88,5 +89,6 @@ class WebPage extends WebMarkupContainer
         $this->getTagRenderer()->setStreamWriter(new PageRenderStreamWriter($this));
         $this->render(new MarkupParser($this->markupResolver->resolveMarkup($this)));
     }
+
 
 }

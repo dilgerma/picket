@@ -351,7 +351,8 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
     public function bind(ComponentStub $parent){
         $this->parent = $parent;
         if(is_null($this->model)){
-            $this->model = $parent->getModel();
+            //access the parent model with the component id
+            $this->model = new PropertyModel($parent->getModel(),$this->getId());
         }
     }
 

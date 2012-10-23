@@ -2,7 +2,7 @@
 class TextField extends FormComponentStub
 {
 
-    public function TextField($id,$model) {
+    public function TextField($id,$model=null) {
         $this->FormComponentStub($id,$model);
     }
 
