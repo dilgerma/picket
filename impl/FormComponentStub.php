@@ -12,6 +12,12 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent,
     private $validators;
     private $submitCallback;
 
+    /**
+     * this is the raw value from the get- or post parameters.
+     * @var
+     */
+    private $rawInput;
+
     public function FormComponentStub($id, $model, $label=""){
         $this->ComponentStub($id,$model,$label);
         $this->validators = array();
@@ -83,6 +89,23 @@ abstract class FormComponentStub extends ComponentStub implements FormComponent,
         $messages = $this->getFeedbackMessages()->getMessages(new FeedbackMessagesLevelFilter(Level::ERROR));
         return count($messages) > 0;
     }
+
+    /**
+     * retrieves the raw input from get- or post parameters
+     * @return mixed
+     */
+    public function getRawInput(){
+        return $this->rawInput;
+    }
+
+    /**
+     * sets the raw input
+     * @param $value
+     */
+    public function setRawInput($value){
+        $this->rawInput = $value;
+    }
+
 
 
 }

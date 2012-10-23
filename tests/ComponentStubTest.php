@@ -48,6 +48,22 @@ class ComponentStubTest extends BaseTestCase
         $tester = new MarkupTester($rendered,false);
         $tester->tagExists("div")->tagExists("div")->attributeEquals("pid","value.value")->nodeValue("chained compound property value");
     }
+
+    public function testGetPage_noPage(){
+        $component = new WebMarkupContainer("test",new SimpleModel(""));
+        $label = new Label("testLabel",new SimpleModel(""));
+        $component->add($label);
+        $this->assertNull($label->getPage());
+    }
+
+    public function testGetPage(){
+        $page = new WebPage("page",new EmptyModel());
+        $component = new WebMarkupContainer("test",new SimpleModel(""));
+        $label = new Label("testLabel",new SimpleModel(""));
+        $component->add($label);
+        $page->add($component);
+        $this->assertTrue($label->getPage() instanceof WebPage);
+    }
 }
 
  class TestComponent extends ComponentStub{

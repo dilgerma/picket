@@ -356,8 +356,24 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
         }
     }
 
+    public function getPage(){
+        $outermost = $this->getOuterMostComponent($this);
+        if($outermost instanceof WebPage){
+            return $outermost;
+        }
+        return null;
+    }
+
     public function getParent(){
         return $this->parent;
+    }
+
+    private function getOuterMostComponent(ComponentStub $component){
+       $parent = $component->getParent();
+       if(is_null($parent) || $parent instanceof WebPage){
+           return $parent;
+       }
+       return $this->getOuterMostComponent($parent);
     }
 
     /*

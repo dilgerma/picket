@@ -6,6 +6,8 @@
  */
 interface FormLifeCycle
 {
+    public function setRawInput($value);
+
     public function onValidate($value);
 
     public function hasErrors();

@@ -46,6 +46,7 @@ class DefaultFormSubmitListener implements FormSubmitListener
         //only FormComponents participate in the LifeCycle
         if (($field instanceof FormLifeCycle)) {
             $value = $this->requestParameters->getSubmittedValueFor($field);
+            $field->setRawInput($value);
             $field->onValidate($value);
             if ($field->hasErrors() === false) {
                 $field->onUpdateModel($value);
