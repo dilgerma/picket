@@ -13,15 +13,11 @@ class RadioButton  extends FormComponentStub
         $this->FormComponentStub($id,$model);
     }
 
-    public function onBeforeRender(MarkupParser $markupParser)
-    {
-        parent::onBeforeRender($markupParser);
-        $this->addAttributes(array("name"=>$this->getParent()->getId()));
-    }
 
     protected function innerConfigure()
     {
         parent::innerConfigure();
+        $this->addAttributes(array("name"=>$this->getParent()->getId()));
         $this->addAttributes(array("value"=>$this->getModel()->getValue()));
     }
 

@@ -6,7 +6,7 @@
  * Time: 11:11
  * To change this template use File | Settings | File Templates.
  */
-abstract class FormComponentStub extends ComponentStub implements FormLifeCycle
+abstract class FormComponentStub extends ComponentStub implements FormComponent,FormLifeCycle
 {
 
     private $validators;
