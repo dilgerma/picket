@@ -1,10 +1,14 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dilgerma
- * Date: 17.07.12
- * Time: 22:53
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ * Property Model is really cool, you can dynamically access your Domain Objects values via expressions.
+ * @see the examples section, how this works.
+ *
+ * If you work with property models, you must supply getters and setters for your exposed properties,
+ * else you´ll get Exceptinos by intention, keep this in mind please.
+ *
+ * @author Martin Dilger
+ * //desc end
  */
 class PropertyModel extends ChainedModel
 {

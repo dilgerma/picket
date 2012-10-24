@@ -8,7 +8,7 @@
  */
 class CSSPackageWebResource extends PackageWebResource
 {
-    public function CSSPackageWebResource($folder,$identifier){
-        $this->PackageWebResource($folder,"css",new CSSResourceRenderer(),$identifier);
+    public function CSSPackageWebResource($folder,ComponentStub $packageComponent, $identifier){
+        $this->PackageWebResource($folder, $packageComponent,"css",new CSSResourceRenderer(),$identifier);
     }
 }

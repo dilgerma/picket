@@ -59,4 +59,8 @@ class Files
     private static function valid($path,$fileending){
         return Strings::endsWith($path,$fileending);
     }
+
+    static function toLocalPath($completePath){
+        return str_replace($_SERVER['DOCUMENT_ROOT'],"",$completePath);
+    }
 }

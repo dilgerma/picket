@@ -36,7 +36,7 @@ class ExamplesContainer extends Panel
      * @return IModel the path of a markupfile that is to be displayed in the markup section, may return null, then the whole markup section will be invisible.
      */
     protected function getExampleMarkupModel(){
-        return new EscapingMarkupModel(MarkupParser::getMarkupNameFromScript($this->exampleComponent->getPackage()));
+        return new EscapingMarkupModel(MarkupParser::getMarkupNameFromScript($this->exampleComponent->getComponentFile()));
     }
 
     /**
@@ -45,7 +45,7 @@ class ExamplesContainer extends Panel
      * @return mixed
      */
     protected function getExampleMarkupCodeModel(){
-        return new EscapingCodeModel($this->exampleComponent->getPackage());
+        return new EscapingCodeModel($this->exampleComponent->getComponentFile());
     }
 
     protected function getDescriptionModel(){

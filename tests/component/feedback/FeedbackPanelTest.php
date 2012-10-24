@@ -19,25 +19,28 @@ class FeedbackPanelTest extends BaseTestCase
         $feedback = new TestFeedbackPanel("testObject", $form);
         $rendered = $feedback->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
 
-        $matcher = array('tag' => 'div', 'descendant' => array('tag' => 'div','content'=>'message-1'));
-        $this->assertTag($matcher,$rendered);
+        $matcher = array('tag' => 'div', 'descendant' => array('tag' => 'div', 'content' => 'message-1'));
+        $this->assertTag($matcher, $rendered);
     }
 
-    public function testFeedbackWithinPanel(){
-         $testPanel = new FeedbackTestPanel();
-         $rendered = $testPanel->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
+    public function testFeedbackWithinPanel()
+    {
+        $testPanel = new FeedbackTestPanel();
+        $rendered = $testPanel->render(new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__)));
 
     }
 }
 
-class TestFeedbackPanel extends FeedbackPanel {
-    public function TestFeedbackPanel($id, $model){
-        $this->FeedbackPanel($id,$model);
+class TestFeedbackPanel extends FeedbackPanel
+{
+    public function TestFeedbackPanel($id, $model)
+    {
+        $this->FeedbackPanel($id, $model);
     }
 
     public function getMarkupFile()
     {
-        return MarkupParser::getMarkupNameFromScript($this->getPackage());
+        return MarkupParser::getMarkupNameFromScript($this->getComponentFile());
     }
 
 

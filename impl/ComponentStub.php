@@ -260,13 +260,21 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
     /**
      *
      * @abstract
-     * @return the folder of this class, typically this will be implemented like
+     * @return the filename of this class
      * dirname(__FILE__)
      */
-    public function getPackage()
+    public function getComponentFile()
     {
         $reflectOnThis = new ReflectionClass($this);
         return $reflectOnThis->getFileName();
+    }
+
+    /**
+     * the folder of this class
+     * @return string
+     */
+    public function getPackage(){
+        return dirname($this->getComponentFile());
     }
 
     /**
@@ -401,8 +409,8 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
 
     public function onDetach()
     {
-        unset($this->parent);
     }
+
 
 
 }

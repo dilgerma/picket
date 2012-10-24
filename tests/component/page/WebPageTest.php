@@ -12,8 +12,10 @@ require_once __DIR__."/PageTestPanel.php";
  */
 class WebPageTest extends BaseTestCase
 {
+
     public function testRenderWebPage()
     {
+
         $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
         $testWebPage->add(new Label("test-id", new SimpleModel("Hello Unit Test")));
         $testWebPage->add(new Label("test-id-2", new SimpleModel("All Tags get Replaced")));
@@ -31,8 +33,8 @@ class WebPageTest extends BaseTestCase
     public function testRenderWebPageWithHeaderContributor(){
         $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
         $label =  new Label("test-id", new SimpleModel("Hello Unit Test"));
-        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","js",new JavaScriptResourceRenderer(),"scripts")));
-        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts","css",new CSSResourceRenderer(),"styles")));
+        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts",$testWebPage,"js",new JavaScriptResourceRenderer(),"scripts")));
+        $label->addBehavior(new HeaderContributor(new PackageWebResource("scripts",$testWebPage,"css",new CSSResourceRenderer(),"styles")));
         $testWebPage->add($label);
         $testWebPage->add(new Label("test-id-2", new SimpleModel("All Tags get Replaced")));
 
@@ -41,17 +43,17 @@ class WebPageTest extends BaseTestCase
         $content = $markupParser->getDocument()->htmlOuter();
 
         $markupTester = new MarkupTester($content, false);
-        $markupTester->tagExists("html")->tagExists("head")->tagExists("script")->attributeEquals("language","JavaScript")->attributeEquals("src","scripts/deeper/deeper.js");
+        $markupTester->tagExists("html")->tagExists("head")->tagExists("script")->attributeEquals("language","JavaScript")->attributeEquals("src","/tests/component/page/scripts/deeper/deeper.js");
 
         $cssMarkupTester = new MarkupTester($content,false);
-        $cssMarkupTester->tagExists("html")->tagExists("head")->tagExists("link")->attributeEquals("rel","stylesheet")->attributeEquals("href","scripts/deeper/style.css");
+        $cssMarkupTester->tagExists("html")->tagExists("head")->tagExists("link")->attributeEquals("rel","stylesheet")->attributeEquals("href","/tests/component/page/scripts/deeper/style.css");
     }
 
 
     public function testRenderWebPageWithDoubleContributions(){
         $testWebPage = new TestWebPage("webpage", new SimpleModel(""));
-        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper","js",new JavaScriptResourceRenderer(),"scripts")));
-        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper","js",new JavaScriptResourceRenderer(),"scripts")));
+        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper",$testWebPage,"js",new JavaScriptResourceRenderer(),"scripts")));
+        $testWebPage->addBehavior(new HeaderContributor(new PackageWebResource("scripts/deeper",$testWebPage,"js",new JavaScriptResourceRenderer(),"scripts")));
 
 
         $markupParser = new MarkupParser(MarkupParser::getMarkupNameFromScript(__FILE__));
@@ -60,7 +62,7 @@ class WebPageTest extends BaseTestCase
 
         $markupTester = new MarkupTester($content, false);
         $markupTester->tagExists("html")->tagExists("head");
-        $markupTester->assertTagCount("script",5);
+        $markupTester->assertTagCount("script",2);
     }
 
     public function testRenderPageWithPanel(){

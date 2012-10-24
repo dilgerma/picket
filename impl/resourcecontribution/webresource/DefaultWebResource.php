@@ -50,7 +50,7 @@ abstract class DefaultWebResource implements WebResource
     {
         $resources = "";
         foreach($this->path as $resource){
-            $resources.=$this->renderer->render($resource);
+            $resources.=$this->renderer->render(Files::toLocalPath($resource));
         }
         return $resources;
 

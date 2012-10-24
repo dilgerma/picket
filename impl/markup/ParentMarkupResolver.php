@@ -11,7 +11,7 @@ class ParentMarkupResolver implements MarkupResolver
 
     public function resolveMarkup(ComponentStub $component)
     {
-        $file =  $component->getPackage();
+        $file =  $component->getComponentFile();
         $markup = MarkupParser::getMarkupNameFromScript($file);
         if(file_exists($markup)){
             return $markup;

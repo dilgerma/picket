@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: dilgerma
- * Date: 15.07.12
- * Time: 09:00
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ * The most simple model you can think of.
+ * Just a value container with getValue- and setValue Methods.
+ * @author Martin Dilger
+ * //desc end
  */
 class SimpleModel implements IModel
 {

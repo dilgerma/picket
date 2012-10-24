@@ -13,6 +13,6 @@ class InvalidHierarchyException extends Exception
      * @param ComponentStub $child
      */
     public function __construct(ComponentStub $parent,ComponentStub $child){
-        parent::__construct($child->getPackage()." must not be assigned to ".$parent->getPackage());
+        parent::__construct($child->getComponentFile()." must not be assigned to ".$parent->getComponentFile());
     }
 }

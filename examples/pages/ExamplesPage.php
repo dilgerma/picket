@@ -19,7 +19,7 @@ class ExamplesPage extends WebPage
 
    public function __construct($id,IModel $model){
        parent::WebPage($id,$model);
-       $this->addBehavior(new HeaderContributor(new CSSPackageWebResource("../bootstrap","bootstrap")));
+       $this->addBehavior(new HeaderContributor(new CSSPackageWebResource("../bootstrap",$this,"bootstrap")));
        $this->add(new ExamplesNavigationPanel("examplesNavigation",new EmptyModel()));
        $testedComponent = $this->getTestedComponent();
        if(!is_null($testedComponent) && $testedComponent!==""){
@@ -28,7 +28,7 @@ class ExamplesPage extends WebPage
    }
 
     private function getTestPanelForComponent($component){
-        $files = Files::listFilesInFolder(__DIR__."/../sections/components","ExamplePanel.php");
+        $files = Files::listFilesInFolder(__DIR__."/../sections/","ExamplePanel.php");
         foreach($files as $file){
             require_once($file);
             if(strpos(strtolower(basename($file)),strtolower($component)) !== false){

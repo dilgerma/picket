@@ -21,7 +21,7 @@ class DefaultResourceLocator implements ResourceLocator
     {
         $resourceName = DefaultResourceLocator::getResourceNameFromScript($component);
 
-        include_once(str_replace(".php","_resource.php",$component->getPackage()));
+        include_once(str_replace(".php","_resource.php",$component->getComponentFile()));
         $resourceReflection = new ReflectionClass($resourceName);
         $this->log->debug("Getting Resource ".$resourceName);
         if($resourceReflection->hasConstant($key)){

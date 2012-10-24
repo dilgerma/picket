@@ -31,7 +31,7 @@ class ListViewTest extends BaseTestCase
 class TestListView extends ListView {
 
     public function TestListView(){
-        $this->ListView("list", new SimpleModel(array("hans","ist","toll")),$this->getPackage());
+        $this->ListView("list", new SimpleModel(array("hans","ist","toll")),$this->getComponentFile());
     }
 
     public function populateItem($markupId,IModel $listItem, $markupIdSuffix)
@@ -41,7 +41,7 @@ class TestListView extends ListView {
 
     public function getMarkupFile()
     {
-        $filename = $this->getPackage();
+        $filename = $this->getComponentFile();
         $markup = MarkupParser::getMarkupNameFromScript($filename);
         return $markup;
     }

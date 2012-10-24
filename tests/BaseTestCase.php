@@ -12,5 +12,8 @@ require_once(__DIR__.'/SimpleTestMarkupParser.php');
  */
 class BaseTestCase extends PHPUnit_Framework_TestCase
 {
-
+     public function setUp(){
+         //document root is not set
+         $_SERVER['DOCUMENT_ROOT'] = realpath(dirname(__FILE__)."/../");
+     }
 }

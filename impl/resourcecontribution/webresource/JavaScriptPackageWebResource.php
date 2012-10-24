@@ -8,7 +8,7 @@
  */
 class JavaScriptPackageWebResource extends PackageWebResource
 {
-    public function JavaScriptPackageWebResource($folder,$identifier){
-        $this->PackageWebResource($folder,"js",new JavaScriptResourceRenderer(),$identifier);
+    public function JavaScriptPackageWebResource($folder,ComponentStub $packageComponent,$identifier){
+        $this->PackageWebResource($folder,$packageComponent,"js",new JavaScriptResourceRenderer(),$identifier);
     }
 }

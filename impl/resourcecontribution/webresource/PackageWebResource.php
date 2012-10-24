@@ -12,10 +12,21 @@
 class PackageWebResource extends DefaultWebResource
 {
 
-    public function PackageWebResource($folder, $fileEndingFilter, ResourceRenderer $renderer,$identifier)
+    /**
+     * The path for folder is dynamically resolved in the package of the provided package component.
+     *
+     * @param $folder
+     * @param ComponentStub $packageComponent
+     * @param $fileEndingFilter
+     * @param ResourceRenderer $renderer
+     * @param $identifier
+     */
+    public function PackageWebResource($folder, ComponentStub $packageComponent, $fileEndingFilter, ResourceRenderer $renderer,$identifier)
     {
-        if (file_exists($folder)) {
-            $files = Files::listFilesInFolder($folder,$fileEndingFilter);
+        $package = $packageComponent->getPackage();
+        $targetPackage = $package."/".$folder;
+        if (file_exists($targetPackage)) {
+            $files = Files::listFilesInFolder($targetPackage,$fileEndingFilter);
             $this->DefaultWebResource($files, $renderer,$identifier);
         } else {
             $this->DefaultWebResource($folder,$renderer,$identifier);

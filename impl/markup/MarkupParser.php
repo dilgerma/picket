@@ -26,8 +26,12 @@ class MarkupParser
      * @return phpQueryObject
      * @throws Exception if no element with the given id was found.
      */
-    public function getTagForComponent(ComponentStub $component, phpQueryObject $startNode = null)
+    public function getTagForComponent(ComponentStub $component)
     {
+        $parent = $component->getParent();
+        if(!is_null($parent)){
+            $startNode = $this->getTagForComponent($parent);
+        }
         $pidSelector = $this->pidSelector($component);
         if (isset($startNode)) {
             $element = $startNode->find($pidSelector);
