@@ -52,10 +52,18 @@ class ExamplesContainer extends Panel
        parent::Panel($id, new EmptyModel());
        $this->exampleComponent = $exampleComponent;
        $this->nameOfExampleClass = $nameOfExampleClass;
-       $this->add(new Label("markup",$this->getExampleMarkupModel()));
-       $this->add(new Label("code",$this->getExampleMarkupCodeModel()));
-       $this->add(new Label("description",$this->getDescriptionModel()));
-       $this->add(new Label("sourceCode",$this->getSourceCodeModel()));
+       $markup = new Label("markup", $this->getExampleMarkupModel());
+       $markup->dontEscapeModelStrings();
+       $this->add($markup);
+       $code = new Label("code", $this->getExampleMarkupCodeModel());
+       $code->dontEscapeModelStrings();
+       $this->add($code);
+       $description = new Label("description", $this->getDescriptionModel());
+       $description->dontEscapeModelStrings();
+       $this->add($description);
+       $source = new Label("sourceCode", $this->getSourceCodeModel());
+       $source->dontEscapeModelStrings();
+       $this->add($source);
        $this->add($this->exampleComponent);
    }
 
