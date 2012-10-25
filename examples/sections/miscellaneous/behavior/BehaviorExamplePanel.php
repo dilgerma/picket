@@ -26,34 +26,45 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 /**
- * //desc start
- * A Behavior allows to to access a Component in all states of the lifecycle.
- * The LifeCycle defines these phases.
  *
- *  onInitialize();
- *
- *  onMarkupTag(MarkupParser $markupParser);
- *
- *  onBeforeRender(MarkupParser $markupParser);
- *
- *  onRender(MarkupParser $markupParser);
- *
- *  onAfterRender(MarkupParser $markupParser);
- *
- *  onDetach();
- *
- * @author Martin Dilger
- * //desc end
  */
-interface Behavior extends RequestCycle, Bindable
+//code start
+class BehaviorExamplePanel extends Panel
 {
-    /**
-     * Only considered if your components are placed within a WebPage and not rendered directly.
-     *
-     * @abstract
-     * @param MarkupParser $parser
-     * @return HeaderContribution
-     */
-    public function renderHead(MarkupParser $parser);
+    public function __construct($id){
+        parent::Panel($id,new EmptyModel());
+        $container = new WebMarkupContainer("container", new EmptyModel());
+        $form = new Form("form", new EmptyModel());
+        $name = new TextField("name", new SimpleModel("gerhard"));
+        /*
+         * Behaviors can be attached to any component.
+         * */
+        $name->addBehavior(new StyleBehavior());
+        $form->add($name);
+        $container->add($form);
+        $this->add($container);
+    }
 }
+
+/*
+ * Just implement Behavior or extend BehaviorAdapter.
+ * You got all LifeCycle-Callbacks and can attach attributes, new styles,
+ * change component, whatever you like.
+ * HeaderContributor for example is nothing more than Behavior.
+ * */
+class StyleBehavior extends BehaviorAdapter {
+
+    public function onBeforeRender(MarkupParser $markupParser)
+    {
+        parent::onBeforeRender($markupParser);
+        $component = $this->getComponent();
+        $modelValue = $component->getModel()->getValue();
+        if($modelValue === 'hans'){
+            $component->addAttributes(array("style"=>"font-family:garamond;color:red;font-size:25px"));
+        }
+    }
+
+}
+//code end

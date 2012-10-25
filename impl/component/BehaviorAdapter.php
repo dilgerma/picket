@@ -36,13 +36,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class BehaviorAdapter implements Behavior
 {
 
+    private $component;
+
     public function renderHead(MarkupParser $parser){
           return new HeaderContribution("","");
     }
 
     public function bind(ComponentStub $component)
     {
-        // TODO: Implement bind() method.
+        $this->component = $component;
     }
 
     public function onMarkupTag(MarkupParser $markupParser)
@@ -73,6 +75,10 @@ class BehaviorAdapter implements Behavior
     public function onDetach()
     {
         // TODO: Implement onDetach() method.
+    }
+
+    public function getComponent(){
+        return $this->component;
     }
 
     /**
