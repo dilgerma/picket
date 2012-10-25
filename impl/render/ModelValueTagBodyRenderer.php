@@ -35,7 +35,11 @@ class ModelValueTagBodyRenderer extends TagRenderer
 {
     public function renderBody(MarkupParser $markupParser)
     {
-       return $this->component->getModel()->getValue();
+       $value = $this->component->getModel()->getValue();
+       if($this->escapeModelStrings()){
+           $value = htmlspecialchars($value);
+       }
+       return $value;
     }
 
 }

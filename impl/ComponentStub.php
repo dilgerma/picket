@@ -59,6 +59,10 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
     //label that can be used to display text
     private $label;
 
+    /*
+     * whether model strings are escaped, default true
+     * */
+    private $escapeModelStrings = true;
     /**
      * @var ComponentStub
      */
@@ -410,6 +414,18 @@ abstract class ComponentStub implements Component, Tag, LifeCycle, Bindable
            return $parent;
        }
        return $this->getOuterMostComponent($parent);
+    }
+
+    /**
+     Disable escape model strings
+     */
+    public final function dontEscapeModelStrings(){
+        $this->escapeModelStrings = false;
+        return $this;
+    }
+
+    public final function isEscapeModelStrings(){
+        return $this->escapeModelStrings;
     }
 
     /*

@@ -118,6 +118,11 @@ class TagRenderer implements ComponentRenderer
            $this->tagName = $markupParser->guessTagNameFromMarkup($this->component);
         }
     }
+
+
+    public final function escapeModelStrings(){
+        return $this->component->isEscapeModelStrings();
+    }
 }
 
 ?>

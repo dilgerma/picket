@@ -29,6 +29,17 @@ class TagRendererTest extends BaseTestCase
         $this->assertEquals("</test-tag>",$this->tagRenderer->renderCloseTag());
     }
 
+    public function testEscapeModelStrings(){
+        $component = new Label("test", new SimpleModel("<script language='javascript'>alert('danger!')</script>"));
+        $rendered = $component->render(new SimpleTestMarkupParser("SimpleMarkupTestFile.html"));
+        $this->assertEquals("<div pid=\"test\">&lt;script language='javascript'&gt;alert('danger!')&lt;/script&gt;</div>",$rendered);
+
+        $component = new Label("test", new SimpleModel("<script language='javascript'>alert('danger!')</script>"));
+        $component->dontEscapeModelStrings();
+        $rendered = $component->render(new SimpleTestMarkupParser("SimpleMarkupTestFile.html"));
+        $this->assertEquals("<div pid=\"test\"><script language=\"javascript\">alert('danger!')</script></div>",$rendered);
+    }
+
 
 }
 
