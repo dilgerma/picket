@@ -56,4 +56,14 @@ abstract class DefaultWebResource implements WebResource
 
     }
 
+    /**
+     *
+     */
+    public static function toComponentPackagePath(ComponentStub $component,$path){
+        $path = Strings::removeFirstCharacterIfAvailable($path,"/");
+        $package = $component->getPackage();
+        return $package."/".$path;
+    }
+
+
 }

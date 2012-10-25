@@ -10,8 +10,14 @@ include_once(__DIR__.'/../../BaseTestCase.php');
 class CSSWebResourceTest  extends BaseTestCase
 {
      public function testRender(){
-         $resource = new CSSWebResource("/styles/style.css","blubb");
+         $label = new TestLabel("test",new EmptyModel());
+         $resource = new CSSWebResource("styles/style.css",$label,"blubb");
          $content = $resource->render();
-         $this->assertEquals("\n<link href=\"/styles/style.css\" rel=\"stylesheet\">\n",$content);
+         $this->assertEquals("\n<link href=\"/tests/resourcecontribution/resource/styles/style.css\" rel=\"stylesheet\">\n",$content);
      }
+}
+
+class TestLabel extends Label
+{
+
 }

@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__.'/../../BaseTestCase.php');
+
 /**
  * Created by IntelliJ IDEA.
  * User: martindilger
@@ -10,8 +11,13 @@ include_once(__DIR__.'/../../BaseTestCase.php');
 class JavaScriptWebResourceTest  extends BaseTestCase
 {
      public function testRender(){
-         $resource = new JavaScriptWebResource("/scripts/script.js","blubb");
+         $resource = new JavaScriptWebResource("scripts/script.js",new JSTestLabel("test",new EmptyModel()),"blubb");
          $content = $resource->render();
-         $this->assertEquals("\n<script language='JavaScript' type='text/javascript' src='/scripts/script.js' />\n",$content);
+         $this->assertEquals("\n<script language='JavaScript' type='text/javascript' src='/tests/resourcecontribution/resource/scripts/script.js' />\n",$content);
      }
+}
+
+class JSTestLabel extends Label
+{
+
 }

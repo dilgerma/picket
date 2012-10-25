@@ -11,7 +11,14 @@ class PackageWebResourceTest extends BaseTestCase
 {
     public function testRenderJS()
     {
-        $resource = new JavaScriptPackageWebResource("test",new PackageLabel("test",new SimpleModel("")),"ident");
+        $resource = new JavaScriptPackageWebResource("/test",new PackageLabel("test",new SimpleModel("")),"ident");
+        $result = $resource->render();
+        $expected = "\n<script language='JavaScript' type='text/javascript' src='/tests/resourcecontribution/resource/test/js/another/script-2.js' />\n\n<script language='JavaScript' type='text/javascript' src='/tests/resourcecontribution/resource/test/js/script-1.js' />\n";
+        $this->assertEquals($expected,$result);
+    }
+
+    public function testRenderJSWithLeadeingSlash(){
+        $resource = new JavaScriptPackageWebResource("/test",new PackageLabel("test",new SimpleModel("")),"ident");
         $result = $resource->render();
         $expected = "\n<script language='JavaScript' type='text/javascript' src='/tests/resourcecontribution/resource/test/js/another/script-2.js' />\n\n<script language='JavaScript' type='text/javascript' src='/tests/resourcecontribution/resource/test/js/script-1.js' />\n";
         $this->assertEquals($expected,$result);

@@ -51,7 +51,7 @@ class WebPage extends WebMarkupContainer
 
         foreach ($collected as $behavior) {
             $headerContribution = $behavior->renderHead($markupParser);
-            $this->renderNewHeaderContribution($contributions, $headerContribution, $markupParser);
+            $this->renderNewHeaderContribution(&$contributions, $headerContribution, $markupParser);
         }
     }
 

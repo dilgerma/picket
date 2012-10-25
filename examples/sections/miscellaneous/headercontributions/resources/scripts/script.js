@@ -1,0 +1,1 @@
+alert('I´ a script and I was rendered by a Header Contribution');

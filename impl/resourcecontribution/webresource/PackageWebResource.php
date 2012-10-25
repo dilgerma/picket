@@ -24,6 +24,7 @@ class PackageWebResource extends DefaultWebResource
     public function PackageWebResource($folder, ComponentStub $packageComponent, $fileEndingFilter, ResourceRenderer $renderer,$identifier)
     {
         $package = $packageComponent->getPackage();
+        $folder = Strings::removeFirstCharacterIfAvailable($folder,"/");
         $targetPackage = $package."/".$folder;
         if (file_exists($targetPackage)) {
             $files = Files::listFilesInFolder($targetPackage,$fileEndingFilter);

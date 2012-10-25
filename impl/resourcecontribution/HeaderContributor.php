@@ -1,10 +1,15 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: martindilger
- * Date: 17.10.12
- * Time: 09:40
- * To change this template use File | Settings | File Templates.
+ * //desc start
+ *
+ * A Special Behavior that can be used to contribute resources to your pages <head>-section.
+ * HeaderContributors can be placed on every component, but do only work if your outermost component
+ * is a webpage, since webpages take care to render header-contributions.
+ *
+ * @see the examples section, how to use them.
+ *
+ * @author Martin Dilger
+ * //desc end
  */
 class HeaderContributor extends BehaviorAdapter
 {

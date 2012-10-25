@@ -41,4 +41,18 @@ class Strings
         return $unit;
     }
 
+    /**
+     * removes the first character $needle, if the strings starts with it.
+     * @static
+     * @param $search
+     * @param $needle#
+     */
+    public static function removeFirstCharacterIfAvailable($search, $needle)
+    {
+        if (strpos($search, $needle) === 0) {
+            return substr($search, 1);
+        }
+        return $search;
+    }
+
 }
