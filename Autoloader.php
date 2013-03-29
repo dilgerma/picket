@@ -38,7 +38,7 @@ class Autoloader
 {
 
 
-    private static $packages = array("impl","impl/ajax","impl/ajax/javascript","impl/resources", "impl/application", "impl/application/session","impl/container", "impl/data",
+    private static $packages = array("impl","impl/resources", "impl/application", "impl/application/session","impl/container", "impl/data",
         "impl/data/property","impl/component","impl/util","impl/component/page","impl/component/repeater","impl/component/feedback",
         "impl/form","impl/form/validation","impl/markup","impl/resourcecontribution","impl/resourcecontribution/title","impl/resourcecontribution/webresource", "impl/render",
         "impl/render/streamwriter", "impl/request","impl/exception","libs/log4php");

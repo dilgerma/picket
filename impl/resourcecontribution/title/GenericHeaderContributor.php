@@ -28,22 +28,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * @author  martindilger
- * Date: 25.03.13
- * Time: 23:22
+ * Date: 29.03.13
+ * Time: 10:40
  */ 
-class TitleContributor extends GenericHeaderContributor{
+class GenericHeaderContributor implements  WebResource {
 
-    private $title;
+    /**
+     * @var IModel
+     */
+    private $content;
+    /**
+     * @var string
+     */
+    private $tagName;
 
-    public function TitleContributor($title){
-        $this->GenericHeaderContributor("title",new SimpleModel($title));
+    public function GenericHeaderContributor($tagName, IModel $content){
+        $this->content = $content;
+        $this->tagName = $tagName;
     }
+
+    public function render()
+    {
+        return "<".$this->tagName.">".$this->content->getValue()."</".$this->tagName.">";
+    }
+
     /**
      *
      * @return string the identifier, that is used to check whether this resource has already been rendered.
      */
     public function getIdentifier()
     {
-        return "title";
+        return "";
     }
 }
