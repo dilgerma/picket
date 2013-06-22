@@ -66,7 +66,7 @@ class TagRenderer implements ComponentRenderer
         $attributes = $this->component->getAttributes();
 
         foreach(array_keys($attributes) as $attribute){
-            $tag.=$attribute."='".$attributes[$attribute]."' ";
+            $tag.=$attribute."=\"".$attributes[$attribute]."\" ";
         }
         $tag.=">";
 
