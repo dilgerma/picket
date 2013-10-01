@@ -77,4 +77,10 @@ class Session
         array_push( $_SESSION[Session::FEEDBACK_MESSAGES],$feedbackMessage);
     }
 
+    public function clearFeedbackMessages(){
+        if(isset($_SESSION[Session::FEEDBACK_MESSAGES])){
+            unset($_SESSION[Session::FEEDBACK_MESSAGES]);
+        }
+    }
+
 }
