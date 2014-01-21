@@ -78,7 +78,7 @@ class WebPage extends WebMarkupContainer
 
         foreach ($collected as $behavior) {
             $headerContribution = $behavior->renderHead($markupParser);
-            $this->renderNewHeaderContribution(&$contributions, $headerContribution, $markupParser);
+            $this->renderNewHeaderContribution($contributions, $headerContribution, $markupParser);
         }
     }
 
@@ -89,7 +89,7 @@ class WebPage extends WebMarkupContainer
      * @param $headerContribution
      * @param $markupParser
      */
-    private final function renderNewHeaderContribution($contributions, $headerContribution, $markupParser)
+    private final function renderNewHeaderContribution(&$contributions, $headerContribution, $markupParser)
     {
         if (!array_key_exists($headerContribution->getIdentifier(),$contributions)) {
             $contributions[$headerContribution->getIdentifier()] = $headerContribution->getResource();
